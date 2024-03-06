@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}{{block.super}} HomePage {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="center">
+<span id="typed" style="font-size:35px;"></span>
+    </div>
+</div>
+<div class="wrapper">
+    <form action="{% url 'Result' %}" method="post">
+        {% csrf_token %}
+    <input type="text" placeholder="Search..." name="search">
+    <div class="search"></div>
+    </form>
+</div>
+<footer>
+        <p>Copyright &copy; | All Rights Reserved by <a class="footer-a" href="https://github.com/SandyUndefined/Django-Search-Engine">Sandeep Sharma</a></p>
+</footer>
+{% endblock content %}
