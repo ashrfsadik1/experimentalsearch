@@ -1,8 +1,7 @@
-# Django-Search-Engine
+# faithsearch
 
-_Scrapes links and text from different search engine and Displays it on a webpage._
+Scrapes links and text from google search engine and Displays it on a webpage 
 
-DEMO: https://djangosearchengine.herokuapp.com/
 
 ## Supported Search engine
 
