@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>YouTube Videos display</title>
+</head>
+<body>
+
+<div id="player"></div> <!-- حاوية لمشغل الفيديو -->
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+    // تعريف مصفوفة بمعرفات الفيديو (تمثل المصفوفة التي قد تحصل عليها من دالة أخرى)
+    // يمكن تحديث هذه المصفوفة بناءً على بيانات تستقبلها من دالة أخرى
+    var videoIds = 'jE1loGZGQZI'; // مثال لمعرف فيديو
+
+    // دالة تحميل واجهة YouTube API وتهيئة المشغل
+    function onYouTubeIframeAPIReady() {
+        loadVideoById(videoIds); // تحميل الفيديو الأول في المصفوفة كمثال
+    }
+
+    // دالة لتحميل فيديو بناءً على معرف
+    function loadVideoById(videoId) {
+        new YT.Player('player', {
+            height: '500',
+            width: '100%',
+            videoId: videoId,
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    // دالة تُستدعى عند جاهزية المشغل
+    function onPlayerReady(event) {
+        event.target.playVideo(); // تشغيل الفيديو تلقائيًا
+    }
+
+    // دالة تُستدعى عند تغيير حالة المشغل (تشغيل، إيقاف، إلخ.)
+    function onPlayerStateChange(event) {
+        // يمكنك إضافة الإجراءات التي تريدها هنا
+    }
+
+    // إضافة دالة لتحديث مصفوفة معرفات الفيديو وتحميل فيديو جديد
+    function updateVideoList(newVideoIds) {
+      
+        loadVideoById(videoIds); // تحميل الفيديو الأول من المصفوفة الجديدة كمثال
+    }
+
+</script>
+<div class="container mt-5">
+    <div class="d-flex justify-content-start">>
+        <!-- زر "نجحت" -->
+        <button type="button" class="btn btn-success mr-2">نجحت</button>
+        <!-- زر "فشلت" -->
+        <button type="button" class="btn btn-danger mr-2">فشلت</button>
+        <!-- زر "تحتاج إلى مال" -->
+        <button type="button" class="btn btn-warning mr-2">تحتاج إلى مال</button>
+        <!-- زر "تحتاج إلى أدوات" -->
+        <button type="button" class="btn btn-info mr-2">تحتاج إلى أدوات</button>
+        <!-- زر "مؤجل" -->
+        <button type="button" class="btn btn-secondary">مؤجل</button>
+            <!-- زر "اخر نجاح" -->
+            <button type="button" class="btn btn-success mr-2">اخر نجاح</button>
+            <!-- زر "اخر فشل" -->
+            <button type="button" class="btn btn-danger mr-2">اخر فشل</button>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
