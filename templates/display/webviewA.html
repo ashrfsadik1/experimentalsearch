@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display URL</title>
+</head>
+<body>
+    {% if url %}
+        <iframe src="{{ url }}" width="100%" height="600px"></iframe>
+    {% else %}
+        <p>Please provide a URL by appending ?url=http://example.com to the address.</p>
+    {% endif %}
+</body>
+</html>
