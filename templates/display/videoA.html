@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends 'baseA.html' %}
+{% block title %}عرض الفيديو {% endblock %}
+{% block content %}
+<html lang="en" dir="rtl">
+
+<body>
+
+ <!-- عرض الفيديو داخل إطار -->
+ <iframe width="100%" height="500" src="{{ embed_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    
+
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-start">>
+        <!-- زر "نجحت" -->
+        <button type="button" class="btn btn-success mr-2">نجحت</button>
+        <!-- زر "فشلت" -->
+        <button type="button" class="btn btn-danger mr-2">فشلت</button>
+        <!-- زر "تحتاج إلى مال" --> 
+        <button type="button" class="btn btn-warning mr-2">تحتاج إلى مال</button>
+        <!-- زر "تحتاج إلى أدوات" -->
+        <button type="button" class="btn btn-info mr-2">تحتاج إلى أدوات</button>
+        <!-- زر "مؤجل" -->
+        <button type="button" class="btn btn-secondary">مؤجل</button>
+            <!-- زر "اخر نجاح" -->
+            <button type="button" class="btn btn-success mr-2">اخر نجاح</button>
+            <!-- زر "اخر فشل" -->
+            <button type="button" class="btn btn-danger mr-2">اخر فشل</button>
+    </div>
+</div>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ -->
+{% endblock %}
