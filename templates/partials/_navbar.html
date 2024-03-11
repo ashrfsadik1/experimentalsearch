@@ -1,11 +1,22 @@
 {%load static %}
-
+    <html dir="rtl" lang="ar">
     <!--navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <a class="navbar-brand" href="{% url 'index' %}">
-            <img src="{% static 'img/mycoffee.png'%}" class="img-brand" alt="My Coffee">
-            My Coffee
+            <img src="{% static 'img/advise2.jpg'%}" class="img-brand" alt="Advissse">
+            Advissse
+            
         </a>
+<!--عرض صورة المستخدم-->
+{%  if request.user.is_authenticated  %}
+{% if  request.user.userprofile.userphoto %}
+<img src="{{request.user.userprofile.userphoto.url}}"  style="width:40px;height:40px;border-radius:50%">
+{% endif %}
+{% if request.user.userprofile.usershopphoto %}
+<img src="{{request.user.userprofile.usershopphoto.url}}"  style="width:50px;height:40px;border-radius:50%">
+{% endif %}
+{% endif %}
+<!--عرض صورة المستخدم-->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -21,7 +32,7 @@
                {% endif %}
                >
 
-                  <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="{% url 'index' %}">الرئيسية <span class="sr-only">(الحالى)</span></a>
               </li>
 
               <li                         
@@ -35,40 +46,40 @@
               >
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {%  if request.user.is_authenticated  %}
-                Welcome
+                مرحباً
                     {%else%}                
-                    Join us
+                    تسجيل الدخول
                     {% endif %}
                   
                 </a>
                 <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
                   {% if request.user.is_authenticated %}
                   <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'profile'%}">Profile({{request.user.username}}) </a>
-                <a href="{% url 'show_product_favorite'  %}   " class="dropdown-item">My Favorites </a>
-                <a href="{% url 'cart'  %}   " class="dropdown-item">My Cart </a>
-                <a href="{% url 'show_orders'  %}   " class="dropdown-item">My Orders </a>
+                <a class="dropdown-item" href="{% url 'profile'%}">({{request.user.username}})الملف الشخصى ل</a>
+                <a href="{% url 'show_product_favorite'  %}   " class="dropdown-item">المفضلة </a>
+                <a href="{% url 'cart'  %}   " class="dropdown-item">سلة مشترياتى</a>
+                <a href="{% url 'show_orders'  %}   " class="dropdown-item">طلباتى </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'logout' %}"  >
-                  Logout
+                  خروج
                 </a>
               </div>
                   {% else %}
-                  <a class="dropdown-item" href="{% url 'signin' %}">Sign in</a>
-                  <a class="dropdown-item" href="{% url 'signup' %}">Sign up</a> 
+                  <a class="dropdown-item" href="{% url 'signin' %}">تسجيل الدخول</a>
+                  <a class="dropdown-item" href="{% url 'signup' %}">الاشتراك معنا</a> 
                   {%endif%}
                 
                 
               </li>
 
               <li
-              {%if 'coffee' in  request.path %}
+              {%if 'advise' in  request.path %}
               class="nav-item active" 
               {% else%}
               class="nav-item" 
               {% endif %}
               id="coffee-nav-item">
-                  <a class="nav-link" href="{% url 'coffee' %}">Coffee</a>
+                  <a class="nav-link" href="{% url 'advise' %}">Advissse</a>
               </li>
 
               <li 
@@ -79,16 +90,16 @@
               {%endif%}
               >
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Products
+                المنتجات
                 </a>
                 <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url 'product' pro_id=1 %}">Caffè Americano</a>
-                <a class="dropdown-item" href="{% url 'product' pro_id=2 %}">Café Latte</a>
+                <a class="dropdown-item" href="{% url 'product' pro_id=1 %}">سماعة ياسون</a>
+                <a class="dropdown-item" href="{% url 'product' pro_id=2 %}">شاحن لدينيو</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'product' pro_id=3  %}">Cappuccino</a>
-                <a class="dropdown-item" href="{% url 'product' pro_id=4  %}">Espresso</a>
+                <a class="dropdown-item" href="{% url 'product' pro_id=3  %}">شاحن denmen</a>
+                <a class="dropdown-item" href="{% url 'product' pro_id=4  %}">حامى التصوير تحت الماء</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'products' %}">All Products</a>
+                <a class="dropdown-item" href="{% url 'products' %}"> كل المنتجات</a>
                 </div>
               </li>
 
@@ -99,7 +110,7 @@
               class="nav-item"
               {% endif %}
               >
-                <a class="nav-link" href="{% url 'about' %}">About</a>
+                <a class="nav-link" href="{% url 'about' %}">عنا</a>
               </li>
 
             </ul>
@@ -111,7 +122,7 @@
             -->
             {% endif  %}
             <form action="{%  url 'products' %}"   class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2 remove-outline"  name='searchname' type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2 remove-outline"  name='searchname' type="search" placeholder="بحث" aria-label="Search">
             <div class="btn-group" role="group">
               <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
               <a href="{% url 'search' %}" class="btn btn-warning my-2 my-sm-0" type="submit">
