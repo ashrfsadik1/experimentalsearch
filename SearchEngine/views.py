@@ -4,7 +4,8 @@ from SearchEngine.search import google
 def homepage(request):
     return render(request,'home.html')
 
-
+def secondpage(request):
+    return render(request,'index.html')
 def results(request):
     if request.method == "POST":
         result = request.POST.get('search')
