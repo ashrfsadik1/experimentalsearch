@@ -9,8 +9,8 @@ from django.utils import timezone
 
 class UserProfile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
-    user_display =models.OneToManyField(Display)
-    user_nickname=models.CharField()
+    user_display =models.ManyToManyField(Display)
+    user_nickname=models.CharField(max_length=150)
     userphoto =models.ImageField(upload_to='imageprofile/%Y/%m/%d/')
     usershopphoto =models.ImageField(upload_to='imageshopprofile/%Y/%m/%d/')
     #region=models.CharField(max_length=60)

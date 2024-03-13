@@ -8,12 +8,12 @@ from datetime import datetime
 
 
 class Display(models.Model) :
-    num=models.BigAutoField()
-    text = models.CharField(maxlength=150) 
+    
+    text = models.CharField(max_length=150) 
     url=models.URLField()
     choosenum=models.IntegerField()
     choosepersonnum=models.IntegerField()
-    user= models.OneToManyField(User,on_delete=models.CASCADE)
+    user= models.ManyToManyField(User)
     #codenumber=models.IntegerField(default=0)
     
     puplish_date =models.DateTimeField(default=datetime.now) 
