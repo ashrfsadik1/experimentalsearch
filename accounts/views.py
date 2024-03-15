@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib import auth
 from .models import  UserProfile
-from products.models import Product 
+
 from django.forms import modelformset_factory
 import re
 

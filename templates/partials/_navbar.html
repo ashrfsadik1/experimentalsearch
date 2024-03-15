@@ -2,7 +2,7 @@
     <html dir="rtl" lang="ar">
     <!--navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-        <a class="navbar-brand" href="{% url 'home' %}">
+        <a class="navbar-brand" href="{% url 'Home' %}">
             <img src="{% static 'img/advise2.jpg'%}" class="img-brand" alt="Faithsearch">
             Faithsearch
             
@@ -32,7 +32,7 @@
                {% endif %}
                >
 
-                  <a class="nav-link" href="{% url 'home' %}">الرئيسية <span class="sr-only">(الحالى)</span></a>
+                  <a class="nav-link" href="{% url 'Home' %}">الرئيسية <span class="sr-only">(الحالى)</span></a>
               </li>
 
               <li                         
@@ -56,9 +56,7 @@
                   {% if request.user.is_authenticated %}
                   <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'profile'%}">({{request.user.username}})الملف الشخصى ل</a>
-                <!-- <a href="{% url 'show_product_favorite'  %}   " class="dropdown-item">المفضلة </a> -->
-                <!-- <a href="{% url 'cart'  %}   " class="dropdown-item">سلة مشترياتى</a> -->
-                <!-- <a href="{% url 'show_orders'  %}   " class="dropdown-item">طلباتى </a> -->
+                
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'logout' %}"  >
                   خروج
@@ -79,7 +77,7 @@
               class="nav-item" 
               {% endif %}
               id="coffee-nav-item">
-                  <a class="nav-link" href="{% url 'home' %}">Faithsearch</a>
+                  <a class="nav-link" href="{% url 'Home' %}">Faithsearch</a>
               </li>
 
               

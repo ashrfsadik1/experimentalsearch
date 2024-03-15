@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from SearchEngine.search import google
 
 def homepage(request):
-    return render(request,'index.html')
+    return render(request,'home.html')
 
 def secondpage(request):
     return render(request,'home.html')
