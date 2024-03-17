@@ -24,18 +24,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
 
-              <li
+             <li> 
                {% if  '/' == request.path  %}
                class="nav-item active"
                {% else  %}
                class="nav-item"
                {% endif %}
-               >
+            
 
                   <a class="nav-link" href="{% url 'Home' %}">الرئيسية <span class="sr-only">(الحالى)</span></a>
               </li>
 
-              <li                         
+              <li>                         
                           
               {% if 'signin' in request.path or 'signup' in request.path or 'profile' in request.path  %}
               class="nav-item dropdown active"
@@ -43,14 +43,16 @@
               class="nav-item dropdown"
               {% endif %}
               
-              >
+              
+
+              </li>
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {%  if request.user.is_authenticated  %}
                 مرحباً
                     {%else%}                
                     تسجيل الدخول
                     {% endif %}
-                  
+                 <li> 
                 </a>
                 <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
                   {% if request.user.is_authenticated %}
@@ -70,7 +72,7 @@
                 
               </li>
 
-              <li></li>
+              <li>
               {%if 'home' in  request.path %}
               class="nav-item active" 
               {% else%}
