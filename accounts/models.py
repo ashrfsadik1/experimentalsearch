@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     user_display =models.ManyToManyField(Display)
     user_nickname=models.CharField(max_length=150)
     userphoto =models.ImageField(upload_to='imageprofile/%Y/%m/%d/')
-    usershopphoto =models.ImageField(upload_to='imageshopprofile/%Y/%m/%d/')
+    #usershopphoto =models.ImageField(upload_to='imageshopprofile/%Y/%m/%d/')
     #region=models.CharField(max_length=60)
     #neighborhood=models.CharField(max_length=60)
     shopname=models.CharField(max_length=60) 
