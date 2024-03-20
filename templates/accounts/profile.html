@@ -1,72 +1,97 @@
+
 {% extends 'base.html' %}
-{% block title %} | Profile{% endblock %}
+{% block title %} | الملف الشخصى{% endblock %}
 {%  block content %}
 <div class="my-form container p-5 my-5 rounded border border-warning">
-    <h2 class="text-center">Profile</h2>
+    <h2 class="text-center">الملف الشخصى</h2>
         <hr>
  
-    {% if request.user.is_authenticated   %}
+{% if request.user.is_authenticated   %}
         
-    <form method="POST">
-        {%  csrf_token  %}
+<form method="POST" enctype="multipart/form-data">
+{%  csrf_token  %}
+       
         
-        {% include  'partials/_alerts.html' %}
+{% include  'partials/_alerts.html' %}
+
+
 
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="inputFirstName">First Name</label>
+                <label for="inputchangeyourpicture"> غير صورتك</label>
+                <input type="file" name="userphoto" required link="{{userphoto.url}}" id="inputchangeyourpicture"  class="btn btn-outline-warning btn-lg btn-block">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputchangeyourshoppicture"> غير صورة محلك</label>
+                <input type="file"  accept="image/" name="usershopphoto" required link="{{usershopphoto}}" id="inputchangeyourshoppicture"  class="btn btn-outline-warning btn-lg btn-block">
+                
+            </div>   
+            <div class="form-group col-md-6">
+                <label for="inputFirstName">الاسم الاول</label>
                 <input type="text" class="form-control" name="fname" id="inputFirstName" required value="{{fname}}">
             </div>
             <div class="form-group col-md-6">
-                <label for="inputLastName">Last Name</label>
+                <label for="inputLastName">الاسم الاخير</label>
                 <input type="text" class="form-control" name="lname" id="inputLastName" required value="{{lname}}">
             </div>
+        <div class="form-group col-md-3">
+            <label for="inputState">الدولة</label>
+            <input type="text" readonly class="form-control" name="State" id="inputState"  required value="مصر">
+            
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputCity">المدينة</label>
+            <input type="text" readonly class="form-control" name="city" id="inputCity"  required value="الاسكندرية">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputRegion">المنطقة</label>
+            <input type="text" class="form-control" name="region" id="inputRegion"  required value="{{region}}">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputneighborhood">الحى</label>
+            <input type="text" class="form-control" name="neighborhood" id="inputAddress" placeholder="الحى " required value="{{neighborhood}}">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputShopName">اسم المحل</label>
+            <input type="text" class="form-control"  name="shopname" id="inputShopName" placeholder="اسم المحل" required value="{{shopname}}">
         </div>
 
-        <div class="form-group">
-            <label for="inputAddress">Address</label>
-            <input type="text" class="form-control" name="address" id="inputAddress" placeholder="1234 Main St" required value="{{address}}">
+        <div class="form-group col-md-9">
+            <label for="inputShopAddress">عنوان المحل</label>
+            <input type="text" class="form-control"  name="shopaddress" id="inputAddress2" placeholder="الشارع الفرعى واسم المحل" required value="{{shopaddress}}">
         </div>
-        <div class="form-group">
-            <label for="inputAddress2">Address 2</label>
-            <input type="text" class="form-control"  name="address2" id="inputAddress2" placeholder="Apartment, studio, or floor" required value="{{address2}}">
+        
+        
+       <div class="form-group col-md-2">
+       <label for="inputZip">الرقم البريدى</label>
+        <input type="text" class="form-control" name="zip" id="inputZip" placeholder="11111" required value="{{zip}}">
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputCity">City</label>
-                <input type="text" class="form-control" name="city" id="inputCity" required value="{{city}}">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="inputZip">State</label>
-                <input type="text" class="form-control" name="state" id="inputZip" required value="{{state}}">
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputZip">Zip</label>
-                <input type="text" class="form-control" name="zip" id="inputZip" placeholder="11111" required value="{{zip}}">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputEmail">Email</label>
+        
+        <div class="form-group col-md-10">
+            <label for="inputEmail">البريد الالكترونى</label>
             <input type="email" name="email" readonly class="form-control-plaintext border border-warning rounded" id="inputEmail" placeholder="name@example.com" required value="{{email}}">
         </div>
-        <div class="form-row">
+        
             <div class="form-group col-md-6">
-                <label for="inputUsername">Username</label>
+                <label for="inputUsername">اسم المستخدم</label>
                 <input type="text" name="user" readonly class="form-control-plaintext border border-warning rounded" id="inputUsername" placeholder="ahmed" required value="{{user}}">
             </div>
             <div class="form-group col-md-6">
-                <label for="inputPassword">Password</label>
+                <label for="inputPassword">كلمة المرور</label>
                 <input type="password"  name="pass" class="form-control" id="inputPassword" required value="{{pass}}">
-            </div>
-        </div>
+            </div>    
+        
+        
 
-        <button type="submit" name="btnsave" class="btn btn-warning">Save Changes</button>
+        <button type="submit" name="btnsave" class="btn btn-warning">حفظ التغييرات</button>
+    </div>
     </form>
+    
 
  {% else %}
         <h4 class ="alert.alert-danger">
-            you must be 
-            <a href="{%  url 'signin'  %}" class="text-dark"> logged in</a>
+            يجب عليك ان 
+            <a href="{%  url 'signin'  %}" class="text-dark"> تسجل دخول</a>
         </h4>    
  {% endif %}
 

@@ -12,7 +12,7 @@ class Display(models.Model) :
     text = models.CharField(max_length=150) 
     url=models.URLField()
     choosenum=models.IntegerField()
-    choosepersonnum=models.IntegerField()
+    
     user= models.ManyToManyField(User)
     #codenumber=models.IntegerField(default=0)
     
