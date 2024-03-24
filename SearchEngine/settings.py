@@ -80,10 +80,15 @@ WSGI_APPLICATION = 'SearchEngine.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'faithsearchdb',
+        'USER': 'root', # اسم مستخدم قاعدة البيانات
+        'PASSWORD': '', # كلمة مرور قاعدة البيانات
+        'HOST': 'localhost', # أو عنوان IP لخادم MySQL إذا كان يعمل على مضيف آخر
+        'PORT': '3306', # منفذ MySQL الافتراضي
     }
 }
+
 
 
 # Password validation

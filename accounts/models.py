@@ -15,8 +15,8 @@ class UserProfile(models.Model):
     #usershopphoto =models.ImageField(upload_to='imageshopprofile/%Y/%m/%d/')
     #region=models.CharField(max_length=60)
     #neighborhood=models.CharField(max_length=60)
-    shopname=models.CharField(max_length=60) 
-    shopaddress=models.CharField(max_length=120)
+    #shopname=models.CharField(max_length=60) 
+    #shopaddress=models.CharField(max_length=120)
     #zip_number=models.CharField(max_length=5)
     def __str__(self):
         return self.user.username

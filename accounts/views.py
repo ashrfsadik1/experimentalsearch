@@ -46,14 +46,9 @@ def signup(request):
     if request.method =='POST' and 'btnsignup' in request.POST:
          #variables for fiwld
         userphoto=None
-        usershopphoto=None 
+        
         fname=None
         lname=None
-        region=None
-        neighborhood=None
-        shopname=None
-        shopaddress=None
-        zip_number=None
         email=None
         username=None
         password=None
@@ -63,23 +58,11 @@ def signup(request):
 #get vlues from form
         if 'userphoto'in request.FILES:userphoto=request.FILES['userphoto']
         else: messages.error(request,'انت لم تدخل صورتك')
-        if 'usershopphoto'in request.FILES:userphoto=request.FILES['usershopphoto']
-        else: messages.error(request,'انت لم تدخل صوره محلك')
         if 'fname' in request.POST: fname =request.POST['fname']
         else: messages.error(request,'انت لم تدخل الاسم الاول')
         
         if 'lname' in request.POST:lname=request.POST['lname']
         else: messages.error(request,'انت لم تدخل الاسم الاخير')
-        if 'region' in request.POST:region=request.POST['region'] 
-        else: messages.error(request,'انت لم تدخل المنطقة')
-        if 'neighborhood' in request.POST:neighborhood=request.POST['neighborhood']
-        else: messages.error(request,'انت لم تدخل الحى')
-        if 'shopname' in request.POST:shopname=request.POST['shopname']
-        else: messages.error(request,'انت لم تدخل اسم المحل')
-        if 'shopaddress' in request.POST:shopaddress=request.POST['shopaddress']
-        else: messages.error(request,'انت لم تدخل عنوان المحل ')
-        if 'zip' in request.POST:zip_number=request.POST['zip']
-        else: messages.error(request,'خطاء فى الرقم البريدى')
         if 'email' in request.POST:email=request.POST['email']
         else: messages.error(request,'خطاء فى الايميل')
        # if 'user' in request.POST:username=request.POST['user']
@@ -88,7 +71,7 @@ def signup(request):
         else: messages.error(request,'خطاء فى كلمة السر')
         if 'terms' in request.POST:terms=request.POST['terms']
         #check the values
-        if  fname and lname and region and neighborhood and shopname and shopaddress and zip_number and email and password:
+        if  fname and lname and email and password:
             if terms=='on':
                 #check if username is taken
                 if User.objects.filter(username=username).exists():
@@ -101,21 +84,16 @@ def signup(request):
                         patt="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"  
                         if re.match(patt,email):
                             #add user
-                            user=User.objects.create_user (first_name=fname,last_name=lname,email=email,username=fname +'_'+shopname,password=password)
+                            user=User.objects.create_user (first_name=fname,last_name=lname,email=email,username=fname +'_'+lname,password=password)
                             user.save()
                             #add user profile
-                            userprofile=UserProfile(user=user,userphoto=userphoto,usershopphoto=usershopphoto,region=region,neighborhood=neighborhood,shopname=shopname,shopaddress=shopaddress,zip_number=zip_number)
+                            userprofile=UserProfile(user=user,userphoto=userphoto)
                             userprofile.save()
                             #clear fields
                             userphoto=None
-                            usershopphoto=None
+                            
                             fname=''
                             lname=''
-                            region=''
-                            neighborhood=''
-                            shopname=''
-                            shopaddress=''
-                            zip_number=''
                             email=''
                             username=''
                             password=''
@@ -134,16 +112,10 @@ def signup(request):
         
         return render(request,'accounts/signup.html',{
             'userphoto':userphoto,
-            'usershopphoto':usershopphoto,
             'fname':fname,
             'lname':lname,
-            'region':region,
-            'neighborhood':neighborhood,
-            'shopname':shopname,
-            'shopaddress':shopaddress,
-            'zip':zip_number,
             'email':email,
-            'user':fname+'_'+shopname,
+            'user':fname+'_'+lname,
             'pass':password,       
             'is_added':is_added,           })
     else:
@@ -153,18 +125,12 @@ def profile(request):
     if request.method =='POST'and 'btnsave' in request.POST:
         if request.user is not None and request.user.id!=None:
             userprofile=UserProfile.objects.get(user=request.user)
-            if request.POST['fname'] and request.POST['lname'] and request.POST['region'] and request.POST['neighborhood'] and request.POST['shopname'] and request.POST['shopaddress'] and request.POST['zip'] and request.POST['email'] and request.POST['user'] and request.POST['pass'] :
+            if request.POST['fname'] and request.POST['lname'] and request.POST['email'] and request.POST['user'] and request.POST['pass'] :
                 
                 request.user.first_name=request.POST['fname']
                 request.user.last_name=request.POST['lname']
                 form = UserProfile(request.FILES, request.POST)  
                 userprofile.userphoto=request.FILES['userphoto']
-                userprofile.usershopphoto=request.FILES['usershopphoto']
-                userprofile.region=request.POST['region']
-                userprofile.neighborhood=request.POST['neighborhood']
-                userprofile.shopname=request.POST['shopname']
-                userprofile.shopaddress=request.POST['shopaddress']
-                userprofile.zip_number=request.POST['zip']
                 #request.user.email=request.POST['email']
                 #request.user.username=request.POST['user']
                 if not request.POST['pass'].startswith('pbkdf2_sha256$'):
@@ -195,14 +161,6 @@ def profile(request):
                     'fname':request.user.first_name,
                     'lname':request.user.last_name,
                     'userphoto':userprofile.userphoto,
-                    'usershopphoto':userprofile.usershopphoto,
-                    'region':userprofile.region,
-                    'neighborhood':userprofile.neighborhood,
-                    'shopname':userprofile.shopname,
-                    'shopaddress':userprofile.shopaddress,
-                    'zip':userprofile.zip_number,
-                    
-                    
                     'email':request.user.email,
                     'user':request.user.username,
                     'pass':request.user.password
@@ -213,7 +171,7 @@ def profile(request):
         else:
             return redirect('profile')
         
-def product_favorite(request,pro_id):
+""" def product_favorite(request,pro_id):
     if request.user.is_authenticated and not request.user.is_anonymous:
         pro_fav=Product.objects.get(pk=pro_id)
         if UserProfile.objects.filter(user=request.user,product_favorites=pro_fav).exists():
@@ -263,7 +221,7 @@ def add_comments(request):
     else:            
         return render(request,'products/addcoments.html')    
        
-       
+        """
         
         
                 
