@@ -4,7 +4,7 @@ from SearchEngine.search import google
 def homepage(request):
     return render(request,'index.html')
 
-def serachpage(request):
+def searchpage(request):
     return render(request,'home.html')
 def results(request):
     if request.method == "POST":
