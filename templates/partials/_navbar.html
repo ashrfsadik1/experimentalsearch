@@ -1,106 +1,76 @@
-{%load static %}
-    <html dir="rtl" lang="ar">
-    <!--navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-        <a class="navbar-brand" href="{% url 'Home' %}">
-            <!-- <img src="{% static 'img/advise2.jpg'%}" class="img-brand" alt="Faithsearch"> -->
-            Faithsearch
-            
-        </a>
-<!--عرض صورة المستخدم-->
-{%  if request.user.is_authenticated  %}
-{% if  request.user.userprofile.userphoto %}
-<img src="{{request.user.userprofile.userphoto.url}}"  style="width:40px;height:40px;border-radius:50%">
-{% endif %}
-{% if request.user.userprofile.usershopphoto %}
-<img src="{{request.user.userprofile.usershopphoto.url}}"  style="width:50px;height:40px;border-radius:50%">
-{% endif %}
-{% endif %}
-<!--عرض صورة المستخدم-->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+{% load static %}
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
 
-             <li> 
-               {% if  '/' == request.path  %}
-               class="nav-item active"
-               {% else  %}
-               class="nav-item"
-               {% endif %}
-            
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    <a class="navbar-brand" href="{% url 'Home' %}">
+      Faithsearch
+    </a>
+    {% if request.user.is_authenticated %}
+      {% if request.user.userprofile.userphoto %}
+        <img src="{{ request.user.userprofile.userphoto.url }}" style="width:40px;height:40px;border-radius:50%">
+      {% endif %}
+      {% if request.user.userprofile.usershopphoto %}
+        <img src="{{ request.user.userprofile.usershopphoto.url }}" style="width:50px;height:40px;border-radius:50%">
+      {% endif %}
+    {% endif %}
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-                  <a class="nav-link" href="{% url 'Home' %}">الرئيسية <span class="sr-only">(الحالى)</span></a>
-              </li>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
 
-              <li>                         
-                          
-              {% if 'signin' in request.path or 'signup' in request.path or 'profile' in request.path  %}
-              class="nav-item dropdown active"
-              {% else %}
-              class="nav-item dropdown"
-              {% endif %}
-              
-              
+        <li>
+         
+          <a class="nav-link" href="{% url 'Home' %}">الرئيسية <span class="sr-only">(الحالى)</span></a>
+        </li>
 
-              </li>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {%  if request.user.is_authenticated  %}
-                مرحباً
-                    {%else%}                
-                    تسجيل الدخول
-                    {% endif %}
-                 <li> 
-                </a>
-                <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
-                  {% if request.user.is_authenticated %}
-                  <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'profile'%}">({{request.user.username}})الملف الشخصى ل</a>
-                
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'logout' %}"  >
-                  خروج
-                </a>
-              </div>
-                  {% else %}
-                  <a class="dropdown-item" href="{% url 'signin' %}">تسجيل الدخول</a>
-                  <a class="dropdown-item" href="{% url 'signup' %}">الاشتراك معنا</a> 
-                  {%endif%}
-                
-                
-              </li>
-
-              <li>
-              {%if 'home' in  request.path %}
-              class="nav-item active" 
-              {% else%}
-              class="nav-item" 
-              {% endif %}
-              id="coffee-nav-item">
-                  <a class="nav-link" href="{% url 'Home' %}">Faithsearch</a>
-              </li>
-
-              
-              
-              
-              
-                
-             
-
-              
-             
-             
-
-            </ul>
+        <li>
+          {% if 'signin' in request.path or 'signup' in request.path or 'profile' in request.path %}
+            class="nav-item dropdown active"
+          {% else %}
+            class="nav-item dropdown"
+          {% endif %}
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {% if request.user.is_authenticated %}
-            <!--
-            <span class="text-light" style="margin-right:5px" >
-              Welcome,{{ request.user.username }}
-            </span>
-            -->
-            {% endif  %}
-            
-              
-    </nav>
+              مرحباً
+            {% else %}
+              تسجيل الدخول
+            {% endif %}
+          </a>
+          <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
+            {% if request.user.is_authenticated %}
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'profile' %}">({{ request.user.username }})الملف الشخصى ل</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'logout' %}" >
+                خروج
+              </a>
+            {% else %}
+              <a class="dropdown-item" href="{% url 'signin' %}">تسجيل الدخول</a>
+              <a class="dropdown-item" href="{% url 'signup' %}">الاشتراك معنا</a> 
+            {% endif %}
+          </div>
+        </li>
+
+        {% block nav_items %}{% endblock %}
+
+      </ul>
+      {% if request.user.is_authenticated %}
+        {% endif %}
+    </div>
+  </nav>
+
+  {% block content %}{% endblock %}
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

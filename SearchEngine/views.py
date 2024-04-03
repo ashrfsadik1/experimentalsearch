@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from SearchEngine.search import google
 
 def homepage(request):
-    return render(request,'home.html')
+    return render(request,'index.html')
 
-def secondpage(request):
+def serachpage(request):
     return render(request,'home.html')
 def results(request):
     if request.method == "POST":
