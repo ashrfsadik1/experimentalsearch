@@ -1,4 +1,4 @@
-from django.shortcuts import render , redirect
+from django.shortcuts import render , redirect,reverse
 from urllib.parse import unquote
 from .models import Display,Display_Data
 from bs4 import BeautifulSoup
@@ -37,4 +37,4 @@ def submit_operation(request):
         display_data = Display_Data.objects.create(choosenum=choosenum)
         display_data.displays.add(display)
         display_data.user.add(request.user)
-        return redirect('display/webviewA.html')  # قم بتوجيه المستخدم مرة أخرى إلى صفحة العرض بعد الانتهاء
+        return redirect('searchpage') 
