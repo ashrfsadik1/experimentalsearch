@@ -3,7 +3,8 @@ from urllib.parse import unquote
 from .models import Display,Display_Data
 from bs4 import BeautifulSoup
 import requests
-
+from datetime import datetime
+from django.contrib.auth.models import User
 # Create your views here.
 
 def display_video(request, url):
@@ -27,14 +28,19 @@ def display_web(request, url):
     return render(request, 'display/webviewA.html', {'embed_url': full_url, 'title': title})
 
 def submit_operation(request):
- if request.method == 'POST':
+    if request.method == 'POST':
         url = request.POST.get('url')
         text = request.POST.get('title')
         choosenum = request.POST.get('CHOOSE')
 
-        display = Display.objects.create(url=url, text=text)
+        if Display.objects.filter(url=url).exists():
+            display = Display.objects.get(url=url)
+            display_data = Display_Data.objects.create(choosenum=choosenum, user=request.user, date_published=datetime.now())
+            display_data.displays.add(display)
+        else:
+            display = Display.objects.create(url=url, text=text)
+            display_data = Display_Data.objects.create(choosenum=choosenum, user=request.user, date_published=datetime.now())
+            display_data.displays.add(display)        # ... (إعادة توجيه المستخدم)
 
-        display_data = Display_Data.objects.create(choosenum=choosenum)
-        display_data.displays.add(display)
-        display_data.user.add(request.user)
-        return redirect('searchpage') 
+        #return redirect('searchpage') 
+        return redirect(request.META.get('HTTP_REFERER'))
