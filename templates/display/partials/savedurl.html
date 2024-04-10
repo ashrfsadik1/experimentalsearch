@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>عرض الكلمات في منتصف الخلفيات</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      margin: 0;
+    }
+    .container {
+      display: flex;
+      flex-grow: 1;
+      flex-wrap: wrap;
+      direction: rtl;
+    }
+    .word {
+      padding: 5px;
+      margin: 5px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      flex-grow: 1;
+      text-align: center;
+    }
+    .success {
+      background-color: #77dd77;
+    }
+    .failure {
+      background-color: #ff6666;
+    }
+    .needs-money {
+      background-color: #99336e;
+    }
+    .needs-tools {
+      background-color: #336699;
+    }
+    .deferred {
+      background-color: #ffff66;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="word success">نجاح</span>
+    <span class="word failure">فشل</span>
+    <span class="word needs-money">يحتاج إلى مال</span>
+    <span class="word needs-tools">يحتاج إلى أدوات</span>
+    <span class="word deferred">مؤجل</span>
+  </div>
+</body>
+</html>
