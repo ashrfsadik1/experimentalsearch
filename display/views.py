@@ -27,7 +27,7 @@ def display_web(request, url):
     title = soup.title.text
     return render(request, 'display/webviewA.html', {'embed_url': full_url, 'title': title})
 
-def submit_operation(request):
+""" def submit_operation(request):
     if request.method == 'POST':
         url = request.POST.get('url')
         text = request.POST.get('title')
@@ -43,4 +43,29 @@ def submit_operation(request):
             display_data.displays.add(display)        # ... (إعادة توجيه المستخدم)
 
         #return redirect('searchpage') 
-        return redirect(request.META.get('HTTP_REFERER'))
+        return redirect(request.META.get('HTTP_REFERER')) """
+def submit_operation(request):
+ if request.method == 'POST':
+    url = request.POST.get('url')
+    text = request.POST.get('title')
+    choosenum = request.POST.get('CHOOSE')
+
+    try:
+        choosenum = int(choosenum)
+    except e:
+       raise ValueError("couldn't convert choosenum into int")
+       # or you can handle the error in a way you like
+
+    if Display.objects.filter(url=url).exists():
+        display = Display.objects.get(url=url)
+        display_data = Display_Data.objects.create(choosenum=choosenum)
+        display_data.displays.add(display)
+        display_data.users.add(request.user)
+    else:
+        display = Display.objects.create(url=url, text=text)
+        display_data = Display_Data.objects.create(choosenum=choosenum)
+        display_data.displays.add(display)        # ... (إعادة توجيه المستخدم)
+        display_data.users.add(request.user)
+
+    #return redirect('searchpage') 
+    return redirect(request.META.get('HTTP_REFERER'))

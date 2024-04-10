@@ -14,7 +14,7 @@ class Display(models.Model) :
     
 class  Display_Data(models.Model) :
          displays = models.ManyToManyField(Display)  
-         user= models.ManyToManyField(User)
+         users= models.ManyToManyField(User)
          choosenum=models.IntegerField()
          puplish_date =models.DateTimeField(default=datetime.now) 
 class Meta:
