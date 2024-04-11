@@ -15,7 +15,8 @@ def check_url_exists(url_to_check):
         display_obj = Display.objects.get(url=url_to_check)
         for i in range(1, 6):
         # حساب عدد السجلات where choosenum = i
-         count = Display_Data.objects.filter(url=url_to_check, choosenum=i).count()
+        
+         count = Display_Data.objects.filter(display_data__url=url_to_check, choosenum=i).count()
          print(count)# إضافة عدد السجلات إلى القائمة
          countArray.append(count)
         return countArray  # الرابط موجود في قاعدة البيانات
@@ -29,7 +30,7 @@ def display_video(request, url):
     soup = BeautifulSoup(requests.get(full_url).content, "html.parser")
     title = soup.title.text
     # استخدم نموذج "display_data"
-    countArry=check_url_exists(url)
+    countArry=check_url_exists(embed_url)
 # استخدم "Count" لحساب عدد السجلات
         
 

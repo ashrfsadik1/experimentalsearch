@@ -14,7 +14,7 @@ class Display(models.Model) :
     text = models.CharField(max_length=150) 
     
 class  Display_Data(models.Model) :
-         displays = models.ManyToManyField(Display)  
+         displays = models.ManyToManyField(Display,related_name='display_data')  
          users= models.ManyToManyField(User)
          choosenum=models.IntegerField()
          puplish_date =models.DateTimeField(default=datetime.now) 
