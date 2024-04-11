@@ -5,18 +5,41 @@ from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.db.models import Count
 # Create your views here.
 
+def check_url_exists(url_to_check):
+    try:
+        countArray= []
+        # محاولة استرداد سجل بناءً على الرابط المعطى
+        display_obj = Display.objects.get(url=url_to_check)
+        for i in range(1, 6):
+        # حساب عدد السجلات where choosenum = i
+         count = Display_Data.objects.filter(url=url_to_check, choosenum=i).count()
+         print(count)# إضافة عدد السجلات إلى القائمة
+         countArray.append(count)
+        return countArray  # الرابط موجود في قاعدة البيانات
+    except Display.DoesNotExist:
+        countArray= [0,0,0,0,0]
+        return countArray
 def display_video(request, url):
     # تشكيل الـ URL الكامل لإطار الفيديو على YouTube
     embed_url = f"https://www.youtube.com/embed/{url}"
     full_url = f"https://www.youtube.com/watch?v={url}"
     soup = BeautifulSoup(requests.get(full_url).content, "html.parser")
     title = soup.title.text
-    
+    # استخدم نموذج "display_data"
+    countArry=check_url_exists(url)
+# استخدم "Count" لحساب عدد السجلات
+        
+
+# طباعة النتيجة
+
+       
+                 
 
         # مرر الـ embed_url وعنوان الفيديو إلى القالب
-    return render(request, 'display/videoA.html', {'embed_url': embed_url , 'title': title})
+    return render(request, 'display/videoA.html', {'embed_url': embed_url , 'title': title,'carry_0': countArry[0], 'carry_1': countArry[1], 'carry_2': countArry[2], 'carry_3': countArry[3], 'carry_4': countArry[4]})
 
 def display_web(request, url):
     # تشكيل الـ URL الكامل لإطار الفيديو على YouTube

@@ -11,7 +11,7 @@ def results(request):
         result = request.POST.get('search')
         google_link,google_text = google(result)
         google_data = zip(google_link,google_text )
-        #print(list(google_data))
+        
 
 
 

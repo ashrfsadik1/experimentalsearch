@@ -8,6 +8,7 @@ from datetime import datetime
 
 
 
+
 class Display(models.Model) :
     url=models.URLField(unique=True)
     text = models.CharField(max_length=150) 
