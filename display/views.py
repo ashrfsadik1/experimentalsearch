@@ -7,6 +7,23 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
 # Create your views here.
+def check_url_exists_and_person(url_to_check):
+    personArray = []
+
+    for i in range(1, 6):
+        latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-date_published').first()
+
+        if latest_successful_record:
+            latest_successful_person = latest_successful_record.users
+        else:
+            latest_successful_person = None
+
+        personArray.append(latest_successful_person )
+
+       
+
+    return personArray
+
 def check_url_exists_and_date(url_to_check):
     dateArray = []
 
