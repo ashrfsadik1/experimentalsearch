@@ -7,7 +7,42 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
 # Create your views here.
+def check_url_exists_and_date(url_to_check):
+    dateArray = []
 
+    for i in range(1, 6):
+        latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-date_published').first()
+
+        if latest_successful_record:
+            latest_successful_date = latest_successful_record.date_published
+        else:
+            latest_successful_date = None
+
+        dateArray.append(latest_successful_date )
+
+       
+
+    return dateArray
+
+def check_url_exists_and_date(url_to_check):
+    try:
+        dateArray= []
+        # محاولة استرداد سجل بناءً على الرابط المعطى
+        #display_obj = Display.objects.get(url=url_to_check)
+        
+        for i in range(1, 6):
+        
+         latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-puplish_date').first()
+         if latest_successful_record:
+            latest_successful_date = latest_successful_record.puplish_date
+         else:
+            latest_successful_date = None
+
+         dateArray.append(latest_successful_date )
+        return dateArray  # الرابط موجود في قاعدة البيانات
+    except Display.DoesNotExist:
+        countArray= [0,0,0,0,0]
+        return dateArray
 def check_url_exists_and_evluate(url_to_check):
     try:
         countArray= []
@@ -32,6 +67,7 @@ def display_video(request, url):
     title = soup.title.text
     # استخدم نموذج "display_data"
     countArry=check_url_exists_and_evluate(embed_url)
+    Darry=check_url_exists_and_date(embed_url)
 # استخدم "Count" لحساب عدد السجلات
         
 
@@ -41,7 +77,7 @@ def display_video(request, url):
                  
 
         # مرر الـ embed_url وعنوان الفيديو إلى القالب
-    return render(request, 'display/videoA.html', {'embed_url': embed_url , 'title': title,'carry_0': countArry[0], 'carry_1': countArry[1], 'carry_2': countArry[2], 'carry_3': countArry[3], 'carry_4': countArry[4]})
+    return render(request, 'display/videoA.html', {'embed_url': embed_url , 'title': title,'carry_0': countArry[0], 'carry_1': countArry[1], 'carry_2': countArry[2], 'carry_3': countArry[3], 'carry_4': countArry[4],'d0':Darry[0],'d1':Darry[1],'d2':Darry[2],'d3':Darry[3],'d4':Darry[4]})
 
 def display_web(request, url):
     # تشكيل الـ URL الكامل لإطار الفيديو على YouTube
