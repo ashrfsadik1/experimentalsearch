@@ -8,11 +8,12 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 # Create your views here.
 
-def check_url_exists(url_to_check):
+def check_url_exists_and_evluate(url_to_check):
     try:
         countArray= []
         # محاولة استرداد سجل بناءً على الرابط المعطى
-        display_obj = Display.objects.get(url=url_to_check)
+        #display_obj = Display.objects.get(url=url_to_check)
+        
         for i in range(1, 6):
         # حساب عدد السجلات where choosenum = i
          count = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).count() 
@@ -30,7 +31,7 @@ def display_video(request, url):
     soup = BeautifulSoup(requests.get(full_url).content, "html.parser")
     title = soup.title.text
     # استخدم نموذج "display_data"
-    countArry=check_url_exists(embed_url)
+    countArry=check_url_exists_and_evluate(embed_url)
 # استخدم "Count" لحساب عدد السجلات
         
 
