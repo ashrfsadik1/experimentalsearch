@@ -9,7 +9,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib import auth
-from .models import  UserProfile
+from .models import  UserProfile,UserUrl
 
 from django.forms import modelformset_factory
 import re
@@ -18,9 +18,9 @@ import re
 
 def signin(request):
     if request.method =='POST' and 'btnlogin' in request.POST:
-        username=request.POST['user']
+        email=request.POST['email']
         password=request.POST['pass']
-        user=auth.authenticate(username=username,password=password)
+        user=auth.authenticate(email=email,password=password)
         if user is not None:
             if 'rememberme' not in request.POST:
                 request.session.set_expiry(0) 
@@ -38,7 +38,7 @@ def signin(request):
 def logout(request):
     if request.user.is_authenticated:
         auth.logout(request) 
-    return redirect('home')
+    return redirect('Home')
         
         
     
@@ -51,6 +51,8 @@ def signup(request):
         lname=None
         email=None
         username=None
+        nikename=None
+        url=None
         password=None
         terms=None
         is_added=None
@@ -65,16 +67,19 @@ def signup(request):
         else: messages.error(request,'انت لم تدخل الاسم الاخير')
         if 'email' in request.POST:email=request.POST['email']
         else: messages.error(request,'خطاء فى الايميل')
-       # if 'user' in request.POST:username=request.POST['user']
-       #else: messages.error(request,'خطاء فى اسم المستخدم')
+        if 'user' in request.POST:username=request.POST['user']
+        else: messages.error(request,'خطاء فى اسم المستخدم')
+        if 'nikename' in request.POST:username=request.POST['nikename']
+        else: messages.error(request,'خطاء فى الاسم المستعار')
+       
         if 'pass' in request.POST:password=request.POST['pass']
         else: messages.error(request,'خطاء فى كلمة السر')
         if 'terms' in request.POST:terms=request.POST['terms']
         #check the values
-        if  fname and lname and email and password:
+        if  fname and lname and nikename  and  email and password:
             if terms=='on':
                 #check if username is taken
-                if User.objects.filter(username=username).exists():
+                if User.objects.filter(nikename=nikename).exists():
                     messages.error(request,'اسم المستخدم موجود من قبل')
                 else:
                     #check if email is taken
@@ -84,11 +89,17 @@ def signup(request):
                         patt="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"  
                         if re.match(patt,email):
                             #add user
-                            user=User.objects.create_user (first_name=fname,last_name=lname,email=email,username=fname +'_'+lname,password=password)
+                            user=User.objects.create_user (first_name=fname,last_name=lname,email=email,username=username,password=password)
                             user.save()
                             #add user profile
-                            userprofile=UserProfile(user=user,userphoto=userphoto)
+                            userprofile=UserProfile(user=user,userphoto=userphoto,nikename=nikename)
                             userprofile.save()
+                            if request.url is not None :
+                                userurl=UserUrl(user=user,url=url)
+                                userurl.save()
+
+                                
+
                             #clear fields
                             userphoto=None
                             
@@ -96,6 +107,8 @@ def signup(request):
                             lname=''
                             email=''
                             username=''
+                            nikename=''
+                            url=''
                             password=''
                             terms=None
                             
@@ -115,7 +128,7 @@ def signup(request):
             'fname':fname,
             'lname':lname,
             'email':email,
-            'user':user,
+            'user':username,
             'pass':password,       
             'is_added':is_added,           })
     else:
