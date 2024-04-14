@@ -38,7 +38,7 @@ def signin(request):
 def logout(request):
     if request.user.is_authenticated:
         auth.logout(request) 
-    return redirect('index')
+    return redirect('home')
         
         
     
@@ -115,7 +115,7 @@ def signup(request):
             'fname':fname,
             'lname':lname,
             'email':email,
-            'user':fname+'_'+lname,
+            'user':user,
             'pass':password,       
             'is_added':is_added,           })
     else:
@@ -131,8 +131,6 @@ def profile(request):
                 request.user.last_name=request.POST['lname']
                 form = UserProfile(request.FILES, request.POST)  
                 userprofile.userphoto=request.FILES['userphoto']
-                #request.user.email=request.POST['email']
-                #request.user.username=request.POST['user']
                 if not request.POST['pass'].startswith('pbkdf2_sha256$'):
                     request.user.set_password(request.POST['pass'])
                 request.user.save() 
@@ -171,58 +169,5 @@ def profile(request):
         else:
             return redirect('profile')
         
-""" def product_favorite(request,pro_id):
-    if request.user.is_authenticated and not request.user.is_anonymous:
-        pro_fav=Product.objects.get(pk=pro_id)
-        if UserProfile.objects.filter(user=request.user,product_favorites=pro_fav).exists():
-            messages.success(request,'هذا المنتج موجود من قبل فى المفضلة')    
-        else:
-            userprofile=UserProfile.objects.get(user=request.user)
-            userprofile.product_favorites.add(pro_fav)
-            messages.success(request,'تم اضافة المنتج الى المفضلة')  
-                  
-        
-    else:
-        messages.error(request,'لابد من تسجيل الدخول')
-    return redirect('/products/' + str(pro_id))      
                     
-def show_product_favorite(request):
-    context=None
-    if request.user.is_authenticated and not request.user.is_anonymous:
-        userInfo=UserProfile.objects.get(user=request.user)
-        pro = userInfo.product_favorites.all()
-        context={'products':pro}
-    return render(request,'products/products.html',context )   
-def show_comments(request,pro_id):
-    usercomments=UserComments.objects.get(productcommented=pro_id)
-    comments=usercomments.objects.all()
-    if comments!=None:
-        context={'comment':comments}
-        return render(request,'products/showcomments.html',context)
-       
-                     
                   
-def add_comments(request):
-    
-    if request.POST and  request.user.is_authenticated and not request.user.is_anonymous: 
-         
-         if 'btnsend' in request.POST :
-            usercomments=UserComments.objects.get(user=request.user)
-            pro=request.get['pro_id']
-            ratio=request.GET['rating']
-            comment=request.GET['comment']
-            usercomment=UserComments.objects.create(user=usercomments,productcommented=pro,productratio=ratio,comment=comment)
-            usercomment.save()
-            context={'products':pro}
-            messages.success(request,'تم اضافة التعليق بنحاح')
-            return render(request,'products/addcomments.html',context)
-         else:
-                messages.alert(request,'لم يتم الحفظ')
-    else:            
-        return render(request,'products/addcoments.html')    
-       
-        """
-        
-        
-                
-            
