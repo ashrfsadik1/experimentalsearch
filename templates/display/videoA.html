@@ -8,9 +8,9 @@
 <form action="{% url 'submit_operation' %}" method="post">
     {% csrf_token %}   
  <!-- عرض الفيديو داخل إطار -->
- <iframe  width="100%" height="500" src="{{ embed_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
- <input type="hidden" name="url" value="{{ embed_url }}">
- <input type="hidden" name="title" value="{{ title }}">
+ <iframe  width="100%" height="500" src="{{ data.embed_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+ <input type="hidden" name="url" value="{{ data.embed_url }}">
+ <input type="hidden" name="title" value="{{ data.title }}">
  
  {% include 'display/partials/frpbuttons.html' %}    
  {% include 'display/partials/savedurl.html' %} 
