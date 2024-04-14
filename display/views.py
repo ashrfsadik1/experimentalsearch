@@ -8,12 +8,12 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 # Create your views here.
 class mydata:
-    def __init__(self, embed_url, title, countArry, Darry, message):
+    def __init__(self, embed_url, title, countArry, Darry):
         self.embed_url = embed_url
         self.title = title
         self.countArry = countArry
         self.Darry = Darry
-        #self.message = message
+        
 def check_url_exists_and_person(url_to_check):
     personArray = []
 
@@ -85,7 +85,7 @@ def check_url_exists_and_evluate(url_to_check):
         countArray= [0,0,0,0,0]
         return countArray
 def display_video(request, url):
-    embed_url=""
+    
     # تشكيل الـ URL الكامل لإطار الفيديو على YouTube
     embed_url = f"https://www.youtube.com/embed/{url}"
     full_url = f"https://www.youtube.com/watch?v={url}"
@@ -116,23 +116,7 @@ def display_web(request, url):
     title = soup.title.text
     return render(request, 'display/webviewA.html', {'embed_url': full_url, 'title': title})
 
-""" def submit_operation(request):
-    if request.method == 'POST':
-        url = request.POST.get('url')
-        text = request.POST.get('title')
-        choosenum = request.POST.get('CHOOSE')
 
-        if Display.objects.filter(url=url).exists():
-            display = Display.objects.get(url=url)
-            display_data = Display_Data.objects.create(choosenum=choosenum, user=request.user, date_published=datetime.now())
-            display_data.displays.add(display)
-        else:
-            display = Display.objects.create(url=url, text=text)
-            display_data = Display_Data.objects.create(choosenum=choosenum, user=request.user, date_published=datetime.now())
-            display_data.displays.add(display)        # ... (إعادة توجيه المستخدم)
-
-        #return redirect('searchpage') 
-        return redirect(request.META.get('HTTP_REFERER')) """
 def submit_operation(request):
  if request.method == 'POST':
     url = request.POST.get('url')
