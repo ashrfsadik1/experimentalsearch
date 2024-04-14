@@ -7,13 +7,13 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
 # Create your views here.
-class data:
+class mydata:
     def __init__(self, embed_url, title, countArry, Darry, message):
         self.embed_url = embed_url
         self.title = title
         self.countArry = countArry
         self.Darry = Darry
-        self.message = message
+        #self.message = message
 def check_url_exists_and_person(url_to_check):
     personArray = []
 
@@ -94,7 +94,7 @@ def display_video(request, url):
     # استخدم نموذج "display_data"
     countArry=check_url_exists_and_evluate(embed_url)
     Darry=check_url_exists_and_date(embed_url)
-    data = data(embed_url, title, countArry, Darry)
+    data = mydata(embed_url, title, countArry, Darry)
 # استخدم "Count" لحساب عدد السجلات
         
 
