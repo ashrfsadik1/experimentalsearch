@@ -69,7 +69,7 @@ def signup(request):
         else: messages.error(request,'خطاء فى الايميل')
         if 'user' in request.POST:username=request.POST['user']
         else: messages.error(request,'خطاء فى اسم المستخدم')
-        if 'nikename' in request.POST:username=request.POST['nikename']
+        if 'nikename' in request.POST:nikename=request.POST['nikename']
         else: messages.error(request,'خطاء فى الاسم المستعار')
        
         if 'pass' in request.POST:password=request.POST['pass']
@@ -79,8 +79,8 @@ def signup(request):
         if  fname and lname and nikename  and  email and password:
             if terms=='on':
                 #check if username is taken
-                if User.objects.filter(nikename=nikename).exists():
-                    messages.error(request,'اسم المستخدم موجود من قبل')
+                if User.objects.filter(username=username).exists():
+                    pass
                 else:
                     #check if email is taken
                     if User.objects.filter(email=email).exists():
@@ -92,9 +92,9 @@ def signup(request):
                             user=User.objects.create_user (first_name=fname,last_name=lname,email=email,username=username,password=password)
                             user.save()
                             #add user profile
-                            userprofile=UserProfile(user=user,userphoto=userphoto,nikename=nikename)
+                            userprofile=UserProfile(user=user,userphoto=userphoto,user_nickname=nikename)
                             userprofile.save()
-                            if request.url is not None :
+                            if request.POST['url'] is not None :
                                 userurl=UserUrl(user=user,url=url)
                                 userurl.save()
 
