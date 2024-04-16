@@ -8,29 +8,31 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 # Create your views here.
 class mydata:
-    def __init__(self, embed_url, title, countArry, Darry):
+    def __init__(self, embed_url, title, countArry, Darry,Parry):
         self.embed_url = embed_url
         self.title = title
         self.countArry = countArry
         self.Darry = Darry
+        self.Parry=Parry
         
 def check_url_exists_and_person(url_to_check):
-    personArray = []
+  personArray = []
 
-    for i in range(1, 6):
-        latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-date_published').first()
+  for i in range(1, 6):
+    latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-puplish_date').first()
 
-        if latest_successful_record:
-            latest_successful_person = latest_successful_record.users
-        else:
-            latest_successful_person = None
+    if latest_successful_record:
+      # استخدم related_name للوصول إلى UserProfile و UserUrl
+      latest_successful_person = {
+          'user_nickname': latest_successful_record.users.userprofile.user_nickname,
+          'url': latest_successful_record.users.userurl.url,
+                }
+    else:
+      latest_successful_person = None
 
-        personArray.append(latest_successful_person )
+    personArray.append(latest_successful_person)
 
-       
-
-    return personArray
-
+  return personArray
 def check_url_exists_and_date(url_to_check):
     dateArray = []
 
@@ -94,7 +96,8 @@ def display_video(request, url):
     # استخدم نموذج "display_data"
     countArry=check_url_exists_and_evluate(embed_url)
     Darry=check_url_exists_and_date(embed_url)
-    data = mydata(embed_url, title, countArry, Darry)
+    Parry=check_url_exists_and_person(embed_url)
+    data = mydata(embed_url, title, countArry, Darry,Parry)
 # استخدم "Count" لحساب عدد السجلات
         
 
