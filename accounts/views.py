@@ -18,9 +18,9 @@ import re
 
 def signin(request):
     if request.method =='POST' and 'btnlogin' in request.POST:
-        email=request.POST['email']
+        username=request.POST['user']
         password=request.POST['pass']
-        user=auth.authenticate(email=email,password=password)
+        user=auth.authenticate(username=username,password=password)
         if user is not None:
             if 'rememberme' not in request.POST:
                 request.session.set_expiry(0) 
@@ -28,13 +28,12 @@ def signin(request):
             auth.login(request,user) 
            #messages.success(request,'You are now logged in')
         else:
-            messages.error(request,'اسم المستحدم او كلمة السر خاطئة')    
+            messages.error(request,'Username or Password invalid')    
             
        
         return redirect('signin')
     else:
         return render(request,'accounts/signin.html')
-
 def logout(request):
     if request.user.is_authenticated:
         auth.logout(request) 
@@ -71,7 +70,7 @@ def signup(request):
         else: messages.error(request,'خطاء فى اسم المستخدم')
         if 'nikename' in request.POST:nikename=request.POST['nikename']
         else: messages.error(request,'خطاء فى الاسم المستعار')
-       
+        if 'url'in request.POST:url=request.POST['url']
         if 'pass' in request.POST:password=request.POST['pass']
         else: messages.error(request,'خطاء فى كلمة السر')
         if 'terms' in request.POST:terms=request.POST['terms']
@@ -80,7 +79,7 @@ def signup(request):
             if terms=='on':
                 #check if username is taken
                 if User.objects.filter(username=username).exists():
-                    pass
+                     messages.error(request,'اسم المستخدم موجود من قبل')
                 else:
                     #check if email is taken
                     if User.objects.filter(email=email).exists():
@@ -94,7 +93,7 @@ def signup(request):
                             #add user profile
                             userprofile=UserProfile(user=user,userphoto=userphoto,user_nickname=nikename)
                             userprofile.save()
-                            if request.POST['url'] is not None :
+                            if url is not None :
                                 userurl=UserUrl(user=user,url=url)
                                 userurl.save()
 

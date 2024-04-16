@@ -8,6 +8,7 @@ from datetime import datetime
 from django.utils import timezone
 
 
+
 class UserProfile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     user_nickname=models.CharField(max_length=150)
