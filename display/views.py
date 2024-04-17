@@ -18,23 +18,25 @@ class mydata:
  
 
 def check_url_exists_and_person(url_to_check):
-    personArray = []
+    
+    user_info_array = []
 
     for i in range(1, 6):
         latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-publish_date').first()
 
         if latest_successful_record:
-            # Access the user profile directly
-            latest_successful_person = {
-                'user_nickname': latest_successful_record.users.userprofile.user_nickname,
-                'url': latest_successful_record.users.userurl.url,
+            user_info = {
+                'user_nickname': latest_successful_record.users.first().userprofile.user_nickname,
+                'url': latest_successful_record.users.first().userurl.url
             }
         else:
-            latest_successful_person = None
+            user_info = None
 
-        personArray.append(latest_successful_person)
+        user_info_array.append(user_info)
 
-    return personArray
+    return user_info_array
+
+   
        
 
 def check_url_exists_and_date(url_to_check):
