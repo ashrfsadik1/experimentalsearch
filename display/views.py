@@ -6,6 +6,7 @@ import requests
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
+from accounts.models import UserProfile,UserUrl
 # Create your views here.
 class mydata:
     def __init__(self, embed_url, title, countArry, Darry,Parry):
@@ -14,25 +15,28 @@ class mydata:
         self.countArry = countArry
         self.Darry = Darry
         self.Parry=Parry
-        
+ 
+
 def check_url_exists_and_person(url_to_check):
-  personArray = []
+    personArray = []
 
-  for i in range(1, 6):
-    latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-puplish_date').first()
+    for i in range(1, 6):
+        latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-publish_date').first()
 
-    if latest_successful_record:
-      # استخدم related_name للوصول إلى UserProfile و UserUrl
-      latest_successful_person = {
-          'user_nickname': latest_successful_record.users.userprofile.user_nickname,
-          'url': latest_successful_record.users.userurl.url,
-                }
-    else:
-      latest_successful_person = None
+        if latest_successful_record:
+            # Access the user profile directly
+            latest_successful_person = {
+                'user_nickname': latest_successful_record.users.userprofile.user_nickname,
+                'url': latest_successful_record.users.userurl.url,
+            }
+        else:
+            latest_successful_person = None
 
-    personArray.append(latest_successful_person)
+        personArray.append(latest_successful_person)
 
-  return personArray
+    return personArray
+       
+
 def check_url_exists_and_date(url_to_check):
     dateArray = []
 
