@@ -26,8 +26,8 @@ def check_url_exists_and_person(url_to_check):
 
         if latest_successful_record:
             user_info = {
-                'user_nickname': latest_successful_record.userprofile.user_nickname,
-                'url': latest_successful_record.userurl.url
+                'user_nickname': latest_successful_record.userprofile.nikename,
+                'url': latest_successful_record.users.userpofile.nikename_url
             }
         else:
             user_info = None

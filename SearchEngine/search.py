@@ -68,9 +68,9 @@ def duck(s):
         a = i.find('a', attrs={'class': 'result__a'})
         links.append(a.get('href'))
         text.append(a.text)
-    if links.count!=0 :
-        links.pop(0)
-        text.pop(0)
+    if len(links) > 0:
+         links.pop(0)
+         text.pop(0)
     return links, text
 
 

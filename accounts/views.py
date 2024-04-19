@@ -104,7 +104,7 @@ def signup(request):
                             email=''
                             username=''
                             nikename=''
-                            nikenameurl=''
+                            nikenameurlp=''
                             password=''
                             terms=None
                             
