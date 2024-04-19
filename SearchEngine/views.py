@@ -29,4 +29,4 @@ def results(request):
             return redirect('Home')
         else:
             
-            return render(request,'results.html',{'google': google_data})
+            return render(request,'results.html',{'google': google_data, 'yahoo': yahoo_data, 'duck': duck_data, 'ecosia': ecosia_data,'bing': bing_data, 'givewater': givewater_data})

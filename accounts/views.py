@@ -9,7 +9,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib import auth
-from .models import  UserProfile,UserUrl
+from .models import  UserProfile
 
 from django.forms import modelformset_factory
 import re
@@ -51,7 +51,7 @@ def signup(request):
         email=None
         username=None
         nikename=None
-        url=None
+        nikenameurl=None
         password=None
         terms=None
         is_added=None
@@ -70,7 +70,7 @@ def signup(request):
         else: messages.error(request,'خطاء فى اسم المستخدم')
         if 'nikename' in request.POST:nikename=request.POST['nikename']
         else: messages.error(request,'خطاء فى الاسم المستعار')
-        if 'url'in request.POST:url=request.POST['url']
+        if 'nikeurl'in request.POST:nikeurl=request.POST['nikeurl']
         if 'pass' in request.POST:password=request.POST['pass']
         else: messages.error(request,'خطاء فى كلمة السر')
         if 'terms' in request.POST:terms=request.POST['terms']
@@ -91,12 +91,9 @@ def signup(request):
                             user=User.objects.create_user (first_name=fname,last_name=lname,email=email,username=username,password=password)
                             user.save()
                             #add user profile
-                            userprofile=UserProfile(user=user,userphoto=userphoto,user_nickname=nikename)
+                            userprofile=UserProfile(user=user,userphoto=userphoto,user_nickname=nikename,nikename_url=nikenameurl)
                             userprofile.save()
-                            if url is not None :
-                                userurl=UserUrl(user=user,url=url)
-                                userurl.save()
-
+                            
                                 
 
                             #clear fields
@@ -107,7 +104,7 @@ def signup(request):
                             email=''
                             username=''
                             nikename=''
-                            url=''
+                            nikenameurl=''
                             password=''
                             terms=None
                             

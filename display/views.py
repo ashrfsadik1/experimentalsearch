@@ -6,7 +6,7 @@ import requests
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
-from accounts.models import UserProfile,UserUrl
+from accounts.models import UserProfile
 # Create your views here.
 class mydata:
     def __init__(self, embed_url, title, countArry, Darry,Parry):
@@ -22,12 +22,12 @@ def check_url_exists_and_person(url_to_check):
     user_info_array = []
 
     for i in range(1, 6):
-        latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-publish_date').first()
+        latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-puplish_date').first()
 
         if latest_successful_record:
             user_info = {
-                'user_nickname': latest_successful_record.users.first().userprofile.user_nickname,
-                'url': latest_successful_record.users.first().userurl.url
+                'user_nickname': latest_successful_record.userprofile.user_nickname,
+                'url': latest_successful_record.userurl.url
             }
         else:
             user_info = None
