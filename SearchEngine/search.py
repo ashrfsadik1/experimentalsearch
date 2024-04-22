@@ -15,7 +15,7 @@ def google(s):
     headers = {"user-agent": USER_AGENT}
     r = requests.get("https://www.google.com/search?q=" + s, headers=headers)
     soup = BeautifulSoup(r.content, "html.parser")
-    for g in soup.find_all('div', class_='nhaZ2c'):
+    for g in soup.find_all('div', class_='nhaZ2c'):#لمواقع اليوتيوب
     
         a = g.find('a')
         t = g.find('h3')
@@ -30,7 +30,7 @@ def google(s):
         
         text.append(t.text)
     #return links, text
-    for g in soup.find_all('div', class_='yuRUbf'):
+    for g in soup.find_all('div', class_='yuRUbf'):#لمواقع النت
     
         a = g.find('a')
         t = g.find('h3')
@@ -43,7 +43,7 @@ def google(s):
         text.append(t.text)
     return links, text
     # Somethime request.code == 500
-def yahoo(s):
+""" def yahoo(s):
     links = []
     text = []
     url = "https://search.yahoo.com/search?q=" + s + "&n=" + str(10)
@@ -126,3 +126,4 @@ def givewater(search):
     
     return(results, texts)
 
+ """

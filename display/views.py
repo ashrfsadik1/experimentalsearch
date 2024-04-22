@@ -86,7 +86,7 @@ def check_url_exists_and_evluate(url_to_check):
         # حساب عدد السجلات where choosenum = i
          count = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).count() 
          #count = Display_Data.objects.filter(display_data__url=url_to_check, choosenum=i).count()
-         print(count)# إضافة عدد السجلات إلى القائمة
+         # إضافة عدد السجلات إلى القائمة
          countArray.append(count)
         return countArray  # الرابط موجود في قاعدة البيانات
     except Display.DoesNotExist:
@@ -102,8 +102,8 @@ def display_video(request, url):
     # استخدم نموذج "display_data"
     countArry=check_url_exists_and_evluate(embed_url)
     Darry=check_url_exists_and_date(embed_url)
-    Parry=check_url_exists_and_person(embed_url)
-    data = mydata(embed_url, title, countArry, Darry,Parry)
+    #Parry=check_url_exists_and_person(embed_url)
+    data = mydata(embed_url, title, countArry, Darry)
 # استخدم "Count" لحساب عدد السجلات
         
 
