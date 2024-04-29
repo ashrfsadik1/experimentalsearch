@@ -70,7 +70,7 @@ def signup(request):
         else: messages.error(request,'خطاء فى اسم المستخدم')
         if 'nikename' in request.POST:nikename=request.POST['nikename']
         else: messages.error(request,'خطاء فى الاسم المستعار')
-        if 'nikeurl'in request.POST:nikeurl=request.POST['nikeurl']
+        if 'nikenameurl'in request.POST:nikenameurl=request.POST['nikenameurl']
         if 'pass' in request.POST:password=request.POST['pass']
         else: messages.error(request,'خطاء فى كلمة السر')
         if 'terms' in request.POST:terms=request.POST['terms']

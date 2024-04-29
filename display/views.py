@@ -23,11 +23,11 @@ def check_url_exists_and_person(url_to_check):
 
     for i in range(1, 6):
         latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-puplish_date').first()
-
-        if latest_successful_record:
+        user_profile=latest_successful_record.users
+        if user_profile:
             user_info = {
-                'user_nickname': latest_successful_record.users.user_nickname,
-                'url': latest_successful_record.users.nikename_url,
+                'user_nickname': user_profile.user_nikename,
+                    'url': user_profile.nikename_url,
             }
         else:
             user_info = None
@@ -102,8 +102,8 @@ def display_video(request, url):
     # استخدم نموذج "display_data"
     countArry=check_url_exists_and_evluate(embed_url)
     Darry=check_url_exists_and_date(embed_url)
-    #Parry=check_url_exists_and_person(embed_url)
-    data = mydata(embed_url, title, countArry, Darry)
+    Parry=check_url_exists_and_person(embed_url)
+    data = mydata(embed_url, title, countArry, Darry,Parry)
 # استخدم "Count" لحساب عدد السجلات
         
 
@@ -142,7 +142,7 @@ def submit_operation(request):
         display = Display.objects.get(url=url)
         display_data = Display_Data.objects.create(choosenum=choosenum)
         display_data.displays.add(display)
-        display_data.users.add(request.user)
+        display_data.users(request.user)
     else:
         display = Display.objects.create(url=url, text=text)
         display_data = Display_Data.objects.create(choosenum=choosenum)
