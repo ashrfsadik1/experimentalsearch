@@ -18,26 +18,24 @@ class mydata:
  
 
 def check_url_exists_and_person(url_to_check):
-    
     user_info_array = []
 
     for i in range(1, 6):
         latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-puplish_date').first()
-        user_profile=latest_successful_record.users
-        if user_profile:
-            user_info = {
-                'user_nickname': user_profile.user_nikename,
-                    'url': user_profile.nikename_url,
-            }
-        else:
-            user_info = None
 
-        user_info_array.append(user_info)
+        if latest_successful_record:  # Check if record exists before accessing attributes
+            user_info = {
+                'user_nickname': latest_successful_record.users.user_nickname,
+                'url': latest_successful_record.users.nikename_url,
+            }
+            user_info_array.append(user_info)
+        else:
+            # Handle the case where no matching record is found (optional)
+            # You can add logic here to handle missing data, e.g., return an empty dictionary
+            pass
 
     return user_info_array
-
-   
-       
+          
 
 def check_url_exists_and_date(url_to_check):
     dateArray = []
@@ -46,7 +44,7 @@ def check_url_exists_and_date(url_to_check):
         latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-date_published').first()
 
         if latest_successful_record:
-            latest_successful_date = latest_successful_record.date_published
+            latest_successful_date = latest_successful_record.puplish_date
         else:
             latest_successful_date = None
 
@@ -127,27 +125,23 @@ def display_web(request, url):
 
 
 def submit_operation(request):
- if request.method == 'POST':
-    url = request.POST.get('url')
-    text = request.POST.get('title')
-    choosenum = request.POST.get('CHOOSE')
+    if request.method == 'POST':
+        url = request.POST.get('url')
+        text = request.POST.get('title')
+        choosenum = request.POST.get('CHOOSE')
 
-    try:
-        choosenum = int(choosenum)
-    except e:
-       raise ValueError("couldn't convert choosenum into int")
-       # or you can handle the error in a way you like
+        try:
+            choosenum = int(choosenum)
+        except ValueError:
+            raise ValueError("couldn't convert choosenum into int")  # Or handle the error differently
 
-    if Display.objects.filter(url=url).exists():
-        display = Display.objects.get(url=url)
-        display_data = Display_Data.objects.create(choosenum=choosenum)
-        display_data.displays.add(display)
-        display_data.users(request.user)
-    else:
-        display = Display.objects.create(url=url, text=text)
-        display_data = Display_Data.objects.create(choosenum=choosenum)
-        display_data.displays.add(display)        # ... (إعادة توجيه المستخدم)
-        display_data.users.add(request.user)
+        # Check if Display exists or create a new one
+        display, created = Display.objects.get_or_create(url=url, defaults={'text': text})
 
-    #return redirect('searchpage') 
-    return redirect(request.META.get('HTTP_REFERER'))
+        # Create Display_Data and associate it with the Display
+        display_data = Display_Data.objects.create(choosenum=choosenum, displays=display)
+        display_data.users.save(users=request.user)
+        #display_data.users.add(request.user)  # Add user to Display_Data
+
+        # ... (Redirect user)
+        return redirect(request.META.get('HTTP_REFERER'))

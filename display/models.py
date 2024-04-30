@@ -14,8 +14,8 @@ class Display(models.Model) :
     text = models.CharField(max_length=150) 
     
 class  Display_Data(models.Model) :
-         displays = models.ManyToManyField(Display,related_name='display_data')  
-         users= models.ManyToManyField(UserProfile,related_name="display_user")
+         displays = models.ForeignKey(Display,on_delete=models.CASCADE,default=1)  
+         users= models.ForeignKey(UserProfile,on_delete=models.CASCADE,default=1)
          choosenum=models.IntegerField()
          puplish_date =models.DateTimeField(default=datetime.now) 
 class Meta:

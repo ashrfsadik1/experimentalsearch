@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("faithexplorer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebdcba0c954da04d7a2b1ce2081878c399158a1a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+76bc5622d3a30403363479e69473273cef298289")]
 [assembly: System.Reflection.AssemblyProductAttribute("faithexplorer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("faithexplorer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
