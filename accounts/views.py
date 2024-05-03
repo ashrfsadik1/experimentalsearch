@@ -141,11 +141,11 @@ def profile(request):
                 form = UserProfile(request.FILES, request.POST)  
                 userprofile.userphoto=request.FILES['userphoto']
                 if not request.POST['pass'].startswith('pbkdf2_sha256$'):
-                    request.user.set_password(request.POST['pass'])
-                request.user.save() 
-                userprofile.save() 
-                auth.login(request,request.user)
-                messages.success(request,'تم حفظ بياناتك')
+                 request.user.set_password(request.POST['pass'])
+                 request.user.save() 
+                 userprofile.save() 
+                 auth.login(request,request.user)
+                 messages.success(request,'تم حفظ بياناتك')
                              
                 
             else:

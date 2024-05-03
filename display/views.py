@@ -129,19 +129,23 @@ def submit_operation(request):
         url = request.POST.get('url')
         text = request.POST.get('title')
         choosenum = request.POST.get('CHOOSE')
-
+        
         try:
             choosenum = int(choosenum)
         except ValueError:
             raise ValueError("couldn't convert choosenum into int")  # Or handle the error differently
 
-        # Check if Display exists or create a new one
-        display, created = Display.objects.get_or_create(url=url, defaults={'text': text})
+       # Import the UserProfile model
+    user_profile = UserProfile.objects.get(user=request.user)
+    print(user_profile)
+    display=Display.objects.get_or_create(url=url,text=text)
+    print("start")
+    print(display)
+    display_data = Display_Data.objects.create(displays=display,choosenum=choosenum, users=user_profile)
 
-        # Create Display_Data and associate it with the Display
-        display_data = Display_Data.objects.create(choosenum=choosenum, displays=display)
-        display_data.users.save(users=request.user)
+
+        
         #display_data.users.add(request.user)  # Add user to Display_Data
 
         # ... (Redirect user)
-        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect(request.META.get('HTTP_REFERER'))
