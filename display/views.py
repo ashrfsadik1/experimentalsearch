@@ -130,10 +130,14 @@ def submit_operation(request):
         text = request.POST.get('title')
         choosenum = request.POST.get('CHOOSE')
         
-        try:
-            choosenum = int(choosenum)
-        except ValueError:
-            raise ValueError("couldn't convert choosenum into int")  # Or handle the error differently
+        
+        choosenum = int(choosenum)
+      #  display=Display.objects.get(url=url,text=text)
+   # if display :
+    #    pass
+     #else   
+   #display =Display(url=url,text=text)
+   #display.save() 
 
        # Import the UserProfile model
     user_profile = UserProfile.objects.get(user=request.user)
