@@ -50,8 +50,7 @@ def signup(request):
         lname=None
         email=None
         username=None
-        nikename=None
-        nikenameurl=None
+        
         password=None
         terms=None
         is_added=None
@@ -68,14 +67,12 @@ def signup(request):
         else: messages.error(request,'خطاء فى الايميل')
         if 'user' in request.POST:username=request.POST['user']
         else: messages.error(request,'خطاء فى اسم المستخدم')
-        if 'nikename' in request.POST:nikename=request.POST['nikename']
-        else: messages.error(request,'خطاء فى الاسم المستعار')
-        if 'nikenameurl'in request.POST:nikenameurl=request.POST['nikenameurl']
+        
         if 'pass' in request.POST:password=request.POST['pass']
         else: messages.error(request,'خطاء فى كلمة السر')
         if 'terms' in request.POST:terms=request.POST['terms']
         #check the values
-        if  fname and lname and nikename  and  email and password:
+        if  fname and lname  and  email and password:
             if terms=='on':
                 #check if username is taken
                 if User.objects.filter(username=username).exists():
@@ -91,7 +88,7 @@ def signup(request):
                             user=User.objects.create_user (first_name=fname,last_name=lname,email=email,username=username,password=password)
                             user.save()
                             #add user profile
-                            userprofile=UserProfile(user=user,userphoto=userphoto,user_nickname=nikename,nikename_url=nikenameurl)
+                            userprofile=UserProfile(user=user,userphoto=userphoto)
                             userprofile.save()
                             
                                 
@@ -103,8 +100,7 @@ def signup(request):
                             lname=''
                             email=''
                             username=''
-                            nikename=''
-                            nikenameurlp=''
+                            
                             password=''
                             terms=None
                             

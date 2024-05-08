@@ -9,32 +9,32 @@ from django.db.models import Count
 from accounts.models import UserProfile
 # Create your views here.
 class mydata:
-    def __init__(self, embed_url, title, countArry, Darry,Parry):
+    def __init__(self, embed_url, title, countArry, Darry):
         self.embed_url = embed_url
         self.title = title
         self.countArry = countArry
         self.Darry = Darry
-        self.Parry=Parry
+        
  
 
-def check_url_exists_and_person(url_to_check):
-    user_info_array = []
+# def check_url_exists_and_person(url_to_check):
+#     user_info_array = []
 
-    for i in range(1, 6):
-        latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-puplish_date').first()
+#     for i in range(1, 6):
+#         latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-puplish_date').first()
 
-        if latest_successful_record:  # Check if record exists before accessing attributes
-            user_info = {
-                'user_nickname': latest_successful_record.users.user_nickname,
-                'url': latest_successful_record.users.nikename_url,
-            }
-            user_info_array.append(user_info)
-        else:
-            # Handle the case where no matching record is found (optional)
-            # You can add logic here to handle missing data, e.g., return an empty dictionary
-            pass
+#         if latest_successful_record:  # Check if record exists before accessing attributes
+#             user_info = {
+#                 'user_nickname': latest_successful_record.users.user_nickname,
+#                 'url': latest_successful_record.users.nikename_url,
+#             }
+#             user_info_array.append(user_info)
+#         else:
+#             # Handle the case where no matching record is found (optional)
+#             # You can add logic here to handle missing data, e.g., return an empty dictionary
+#             pass
 
-    return user_info_array
+#     return user_info_array
           
 
 def check_url_exists_and_date(url_to_check):
@@ -100,8 +100,8 @@ def display_video(request, url):
     # استخدم نموذج "display_data"
     countArry=check_url_exists_and_evluate(embed_url)
     Darry=check_url_exists_and_date(embed_url)
-    Parry=check_url_exists_and_person(embed_url)
-    data = mydata(embed_url, title, countArry, Darry,Parry)
+    
+    data = mydata(embed_url, title, countArry, Darry)
 # استخدم "Count" لحساب عدد السجلات
         
 
@@ -132,21 +132,22 @@ def submit_operation(request):
         
         
         choosenum = int(choosenum)
-      #  display=Display.objects.get(url=url,text=text)
-   # if display :
-    #    pass
-     #else   
-   #display =Display(url=url,text=text)
-   #display.save() 
+        display=Display.objects.get(url=url,text=text)
+    if display :
+       pass
+    else:   
+        display =Display(url=url,text=text)
+        display.save() 
 
        # Import the UserProfile model
     user_profile = UserProfile.objects.get(user=request.user)
     print(user_profile)
-    display=Display.objects.get_or_create(url=url,text=text)
+    #display=Display.objects.get_or_create(url=url,text=text)
     print("start")
-    print(display)
-    display_data = Display_Data.objects.create(displays=display,choosenum=choosenum, users=user_profile)
-
+    #print(display.index)
+    display_data = Display_Data.objects.create(displays=display,choosenum=choosenum)
+    display_data.users.add(user_profile)
+    
 
         
         #display_data.users.add(request.user)  # Add user to Display_Data
