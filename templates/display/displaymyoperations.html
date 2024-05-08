@@ -1,0 +1,111 @@
+{% extends 'baseA.html' %}
+{% block title %}{{block.super}} Results {% endblock %}
+
+{% block content %}
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg p-3 mb-5">
+  <a class="navbar-brand ml-4" href="{% url 'Home' %}"><i class="fas fa-arrow-left fa-2x"></i></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="container d-flex justify-content-center">
+      <h4 class="navbar-text text-white">
+    faith search
+  </h4>
+  </div>
+
+</nav>
+<div class="container" style="margin-bottom: 85px;">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <h4 class="panel panel-blue text-center" >My Oprations</h4>
+        <div class="justify-content-center">
+          {% for display_datum in display_data %}
+         <a href="{{ display_datum.displays.url  }}" class="btn mt-3 w-100">{{ display_datum.displays.text }}   
+          {{display_datum.displays.text}}
+         </a><br>
+               
+        {% endfor %}
+        </div>
+    </div>
+  </div>
+  <!-- <div class="container" style="margin-bottom: 85px;">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h4 class="panel panel-blue text-center" >Yahoo</h4>
+          <div class="justify-content-center">
+            {% for i,j in yahoo %}
+           <a href="{{ i }}" class="btn mt-3 w-100">{{ j }}   
+            
+           </a><br>
+                 
+          {% endfor %}
+          </div>
+      </div>
+    </div>
+  
+    <div class="container" style="margin-bottom: 85px;">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+          <h4 class="panel panel-blue text-center" >DuckDuckGo</h4>
+            <div class="justify-content-center">
+              {% for i,j in duck %}
+             <a href="{{ i }}" class="btn mt-3 w-100">{{ j }}   
+              
+             </a><br>
+                   
+            {% endfor %}
+            </div>
+        </div>
+      </div>
+
+      <div class="container" style="margin-bottom: 85px;">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <h4 class="panel panel-blue text-center" >Ecosia</h4>
+              <div class="justify-content-center">
+                {% for i,j in ecosia %}
+               <a href="{{ i }}" class="btn mt-3 w-100">{{ j }}   
+                
+               </a><br>
+                     
+              {% endfor %}
+              </div>
+          </div>
+        </div>
+
+        <div class="container" style="margin-bottom: 85px;">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+              <h4 class="panel panel-blue text-center" >Bing</h4>
+                <div class="justify-content-center">
+                  {% for i,j in bing %}
+                 <a href="{{ i }}" class="btn mt-3 w-100">{{ j }}   
+                  
+                 </a><br>
+                       
+                {% endfor %}
+                </div>
+            </div>
+          </div>
+          <div class="container" style="margin-bottom: 85px;">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12">
+                <h4 class="panel panel-blue text-center" >Givewater</h4>
+                  <div class="justify-content-center">
+                    {% for i,j in givewater %}
+                   <a href="{{ i }}" class="btn mt-3 w-100">{{ j }}   
+                    
+                   </a><br>
+                         
+                  {% endfor %}
+                  </div>
+              </div>
+            </div> -->
+          
+<footer>
+        <p>Copyright &copy; | All Rights Reserved by <a class="footer-a" href="https://github.com/SandyUndefined/Django-Search-Engine">Sandeep Sharma</a></p>
+</footer>
+{% endblock content %}

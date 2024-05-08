@@ -34,6 +34,12 @@
         </li>
 
         <li>
+          <li>
+         
+            <a class="nav-link" href="{% url 'displaymyoperations' %}">عملياتي <span class="sr-only">(الحالى)</span></a>
+          </li>
+  
+          <li>  
           {% if 'signin' in request.path or 'signup' in request.path or 'profile' in request.path %}
             class="nav-item dropdown active"
           {% else %}
