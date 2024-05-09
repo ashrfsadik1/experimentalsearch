@@ -132,21 +132,19 @@ def submit_operation(request):
         
         
         choosenum = int(choosenum)
-        display=Display.objects.get(url=url,text=text)
-    if display :
-       pass
-    else:   
-        display =Display(url=url,text=text)
-        display.save() 
+        #display=Display.objects.get(url=url,text=text)
+        try:
+            display = Display.objects.get(url=url, text=text)
+        except :
+            display = Display(url=url, text=text)
+            display.save()
 
        # Import the UserProfile model
-    user_profile = UserProfile.objects.get(user=request.user)
-    print(user_profile)
-    #display=Display.objects.get_or_create(url=url,text=text)
-    print("start")
+            user_profile = UserProfile.objects.get(user=request.user)
+    
     #print(display.index)
-    display_data = Display_Data.objects.create(displays=display,choosenum=choosenum)
-    display_data.users.add(user_profile)
+            display_data = Display_Data.objects.create(displays=display,choosenum=choosenum)
+            display_data.users.add(user_profile)
     
 
         
