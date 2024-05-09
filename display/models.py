@@ -12,6 +12,7 @@ from  accounts.models import UserProfile
 class Display(models.Model) :
     url=models.URLField(unique=True)
     text = models.CharField(max_length=150) 
+    isyoutube=models.BooleanField(default=True)
     
 class  Display_Data(models.Model) :
          displays = models.ForeignKey(Display,on_delete=models.CASCADE,default=1)  

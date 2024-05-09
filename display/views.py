@@ -157,7 +157,9 @@ def displaymyoperations(request):
     current_user = request.user
     userprofile=UserProfile.objects.get(user=current_user)
     # استعلام بيانات العروض التي قام المستخدم بتقييمها
-    display_data = Display_Data.objects.filter(users=userprofile)
+    display_data = Display_Data.objects.filter(users=userprofile).order_by('-puplish_date')
+
+    #display_data = Display_Data.objects.filter(users=userprofile)
     # تحويل قيمة التقييم إلى نص وصفي
     for display_datum in display_data:
         if display_datum.choosenum == 1:
