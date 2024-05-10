@@ -1,5 +1,6 @@
 from django.shortcuts import render , redirect,reverse
-from urllib.parse import unquote
+from urllib.parse import unquote,urlparse
+
 from .models import Display,Display_Data
 from bs4 import BeautifulSoup
 import requests
@@ -7,6 +8,9 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
 from accounts.models import UserProfile
+import re
+
+
 # Create your views here.
 class mydata:
     def __init__(self, embed_url, title, countArry, Darry):
@@ -122,29 +126,45 @@ def display_web(request, url):
     soup = BeautifulSoup(requests.get(full_url).content, "html.parser")
     title = soup.title.text
     return render(request, 'display/webviewA.html', {'embed_url': full_url, 'title': title})
+def is_youtube_url(url):
+
+    #https://www.youtube.com/embed/CGMCEw5Cfjo
+   youtube_regex = r"^https?://(?:www\.)?youtube\.com/(?:embed/|v/|watch\?v=|playlist\?list=)(?P<video_id>[a-zA-Z0-9-_]{11})"
+   match = re.search(youtube_regex, url)
+    
+   return bool(match)
 
 
 def submit_operation(request):
     if request.method == 'POST':
         url = request.POST.get('url')
-        text = request.POST.get('title')
-        choosenum = request.POST.get('CHOOSE')
+        
+    if is_youtube_url(url):
+        isyoutube=True
+    else:
+        isyoutube=False    
+
+           
+        # ال URL ليس خاص بيوتيوب
+        # قم بتنفيذ الإجراء المناسب هنا
+    text = request.POST.get('title')
+    choosenum = request.POST.get('CHOOSE')
         
         
-        choosenum = int(choosenum)
+    choosenum = int(choosenum)
         #display=Display.objects.get(url=url,text=text)
-        try:
+    try:
             display = Display.objects.get(url=url, text=text)
-        except :
-            display = Display(url=url, text=text)
+    except :
+            display = Display(url=url, text=text,isyoutube=isyoutube)
             display.save()
 
        # Import the UserProfile model
-            user_profile = UserProfile.objects.get(user=request.user)
+    user_profile = UserProfile.objects.get(user=request.user)
     
     #print(display.index)
-            display_data = Display_Data.objects.create(displays=display,choosenum=choosenum)
-            display_data.users.add(user_profile)
+    display_data = Display_Data.objects.create(displays=display,choosenum=choosenum)
+    display_data.users.add(user_profile)
     
 
         

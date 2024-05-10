@@ -26,8 +26,11 @@
           
 
           {% for display_datum in display_data %}
-        
-         <a href="{% url 'display_video' embed_url=display_datum.displays.url %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}   
+        {% if display_datum.displays.isyoutube %}
+         <a href="{% url 'display_video' url=display_datum.displays.url %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}   
+         {%else %} 
+         <a href="{% url 'display_web' url=display_datum.displays.url %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}   
+          {% endif %}
           <strong>{{display_datum.choosenum_text}} </strong>{{display_datum.puplish_date}}
          </a><br>
                
