@@ -6,7 +6,7 @@ from .views import submit_operation
 from .views import displaymyoperations
 urlpatterns = [
     path('display/<str:url>/', display_video, name='display_video'),
-    path('display_web/<str:url>/', display_web  , name='display_web'),
+    path('display_web/<path:full_path>/', display_web  , name='display_web'),
     path('submit_operation/', submit_operation, name='submit_operation'),
     path('displaymyoperations/', displaymyoperations, name='displaymyoperations'),
 

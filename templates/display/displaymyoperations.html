@@ -2,6 +2,8 @@
 {% block title %}{{block.super}} Results {% endblock %}
 
 {% block content %}
+{% load custom_filters %}
+
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg p-3 mb-5">
@@ -26,15 +28,19 @@
           
 
           {% for display_datum in display_data %}
-        {% if display_datum.displays.isyoutube %}
-         <a href="{% url 'display_video' url=display_datum.displays.url %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}   
-         {%else %} 
-         <a href="{% url 'display_web' url=display_datum.displays.url %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}   
-          {% endif %}
-          <strong>{{display_datum.choosenum_text}} </strong>{{display_datum.puplish_date}}
-         </a><br>
-               
-        {% endfor %}
+    {% if display_datum.displays.isyoutube %}
+    {% with video_id=display_datum.displays.url|slice:"30:" %}
+            <a href="{% url 'display_video' url=video_id %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
+        {% endwith %}
+    {% else %}
+        <a href="{% url 'display_web' url=display_datum.displays.url %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
+    {% endif %}
+    <strong>{{ display_datum.choosenum_text }}</strong> {{ display_datum.puplish_date }}<br>
+{% endfor %}
+
+
+      
+
         </div>
     </div>
   </div>
