@@ -193,10 +193,11 @@ def displaymyoperations(request):
         else:
             display_datum.choosenum_text = "مؤجل"
 
-
+   
     # تحضير سياق العرض (context)
     context = {
         'display_data': display_data,
+         
     }
 
     # عرض القالب (template) مع البيانات

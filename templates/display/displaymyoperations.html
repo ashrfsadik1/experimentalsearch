@@ -33,7 +33,7 @@
             <a href="{% url 'display_video' url=video_id %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
         {% endwith %}
     {% else %}
-        <a href="{% url 'display_web' url=display_datum.displays.url %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
+        <a href="{% url 'display_web' url=display_datum.displays.url|reverse_url %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
     {% endif %}
     <strong>{{ display_datum.choosenum_text }}</strong> {{ display_datum.puplish_date }}<br>
 {% endfor %}
