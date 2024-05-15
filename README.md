@@ -1,22 +1,23 @@
 scrap linke and text from google is based on oprn reporsatry  https://github.com/SandyUndefined/Django-Search-Engine
 
-# frpsearch
+#experimentalsearch
 
-Scrapes links and text from google search engine and Displays it on a webpage when you choose a site from the webpage they apper in frame and you can value your exprites not the vidio itself like youtube we saved your value in a database when you or other serach again they saw the site and his values in the same place
+Scrapes links and text from google search engine and Displays it on a webpage when you choose a site from the webpage they apper in frame and you can value your exprites not the vidio itself like youtube we saved your value in a database when you or other serach again they saw the site and his values in the same place this site is very good for frp search and learning code or lerning experiment
 
 
 ## Features
 
 1. Removed Ad links.
 2. make users value his exprtise on any site and then another user can say after that site and values in on place
+   
 
 ## How to Run
 
 Open cmd prompt and write following commands.
 
-Step 1: `git clone https://github.com/ashrfsadik1/frpsearch`
+Step 1: `git clone https://github.com/ashrfsadik1/experimentalsearch`
 
-Step 2: `cd frpsearch`
+Step 2: `cd experimentalsearch`
 
 Step 3: `pip install -r requirements.txt` or `pip3 install -r requirements.txt`
 
