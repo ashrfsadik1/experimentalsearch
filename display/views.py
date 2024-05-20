@@ -125,7 +125,11 @@ def display_web(request, url):
     # استخراج عنوان الموقع من URL
     soup = BeautifulSoup(requests.get(full_url).content, "html.parser")
     title = soup.title.text
-    return render(request, 'display/webviewA.html', {'embed_url': full_url, 'title': title})
+    countArry=check_url_exists_and_evluate(full_url)
+    Darry=check_url_exists_and_date(full_url)
+    
+    data = mydata(full_url, title, countArry, Darry)
+    return render(request, 'display/webviewA.html', {'data':data })
 def is_youtube_url(url):
 
     #https://www.youtube.com/embed/CGMCEw5Cfjo
