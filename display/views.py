@@ -127,6 +127,8 @@ def display_web(request, url):
     title = soup.title.text
     countArry=check_url_exists_and_evluate(full_url)
     Darry=check_url_exists_and_date(full_url)
+    print (countArry)
+    print (Darry)
     
     data = mydata(full_url, title, countArry, Darry)
     return render(request, 'display/webviewA.html', {'data':data })

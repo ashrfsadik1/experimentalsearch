@@ -1,9 +1,23 @@
 from django.shortcuts import render, redirect
 from SearchEngine.search import google
+from django.contrib.auth.models import User
+from display.models import Display,Display_Data
 #from SearchEngine.search import google,yahoo,duck,ecosia, bing, givewater
 
 def homepage(request):
-    return render(request,'index.html')
+    user_count=User.objects.count()
+    sites_count=Display.objects.count()
+    sucuss_count=Display_Data.objects.filter(choosenum=1).count()
+    print(sucuss_count)
+    failed_count=Display_Data.objects.filter(choosenum=2).count()
+    print(failed_count)
+    context={
+        "user_count":user_count,
+        "sites_count":sites_count,
+        "sucuss_count":sucuss_count,
+        "failed_count":failed_count,
+    }
+    return render(request,'index.html',{'context':context})
 
 def searchpage(request):
     return render(request,'home.html')

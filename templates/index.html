@@ -60,9 +60,11 @@
     <!--jumbotron 2-->
     <section>
       <div class="jumbotron rounded-bottom">
-        <h1 class="display-4">عدد  المستخدمين
-        <p class="lead">عدد العمليات  الناجحة</p>
-        <p class="lead">عدد العمليات  الفاشلة</p>
+        <h1 class="display-4">عدد  المستخدمين{{context.user_count}}
+          <p class="lead">عدد المواقع{{context.sites_count}}</p>
+  
+        <p class="lead">عدد العمليات  الناجحة{{context.sucuss_count}}</p>
+        <p class="lead">عدد العمليات  الفاشلة{{context.failed_count}}</p>
         <hr class="my-4">
         <p>اظهار نتائج فعالة  مع  زيادةعدد  المستخدمين</p>
         <p>الحصول   عليي  نتائج سريعة  وقوية</p>

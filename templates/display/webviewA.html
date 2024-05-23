@@ -3,13 +3,17 @@
 {% extends 'baseA.html' %}
 {% block title %}عرض الموقع{% endblock %}
 {% block content %}
-<form action="{% url 'submit_operation' %}" method="post">
-    {% csrf_token %}   
-    <!-- عرض الموقع داخل إطار -->
-    <iframe width="100%" height="500" src="{{ data.full_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <input type="hidden" name="url" value="{{ data.full_url }}">
-    <input type="hidden" name="title" value="{{ data.title }}">
-    {% include 'display/partials/frpbuttons.html' %} 
-    {% include 'display/partials/savedurl.html' %} 
+
+    <form action="{% url 'submit_operation' %}" method="post">
+        {% csrf_token %}
+        <!-- عرض الموقع داخل إطار -->
+        <iframe width="100%" height="500" src="{{ data.full_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <input type="hidden" name="url" value="{{ data.full_url }}">
+        <input type="hidden" name="title" value="{{ data.title }}">
+        {% include 'display/partials/frpbuttons.html' %}
+        {% include 'display/partials/savedurl.html' %}
+    </form>
+
+
 
 {% endblock %}
