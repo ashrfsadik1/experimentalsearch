@@ -8,14 +8,21 @@ def homepage(request):
     user_count=User.objects.count()
     sites_count=Display.objects.count()
     sucuss_count=Display_Data.objects.filter(choosenum=1).count()
-    print(sucuss_count)
+    
     failed_count=Display_Data.objects.filter(choosenum=2).count()
-    print(failed_count)
+    needtomoney_count=Display_Data.objects.filter(choosenum=3).count()
+    needtotools_count=Display_Data.objects.filter(choosenum=4).count()
+    delayed_count=Display_Data.objects.filter(choosenum=5).count()
     context={
         "user_count":user_count,
         "sites_count":sites_count,
         "sucuss_count":sucuss_count,
         "failed_count":failed_count,
+        "needtomoney_count":needtomoney_count,
+        "needtotools_count":needtotools_count,
+        "delayed_count":delayed_count,
+
+
     }
     return render(request,'index.html',{'context':context})
 
