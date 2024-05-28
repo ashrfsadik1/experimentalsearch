@@ -22,7 +22,7 @@
 <div class="container" style="margin-bottom: 85px;">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
-      <h4 class="panel panel-blue text-center" >My Oprations</h4>
+      <h4 class="panel panel-blue text-center" >My Delay Oprations</h4>
         <div class="justify-content-center">
          
           
@@ -33,7 +33,7 @@
             <a href="{% url 'display_video' url=video_id %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
         {% endwith %}
     {% else %}
-    {% with weburl=display_datum.displays.url|stringformat:"s" %}
+    {% with weburl=display_datum.displays.url|urlencode %}
     <a href="{% url 'display_web' url=weburl %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
 {% endwith %}
 

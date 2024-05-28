@@ -17,9 +17,7 @@
       {% if request.user.userprofile.userphoto %}
         <img src="{{ request.user.userprofile.userphoto.url }}" style="width:40px;height:40px;border-radius:50%">
       {% endif %}
-      {% if request.user.userprofile.usershopphoto %}
-        <img src="{{ request.user.userprofile.usershopphoto.url }}" style="width:50px;height:40px;border-radius:50%">
-      {% endif %}
+      
     {% endif %}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -38,7 +36,10 @@
          
             <a class="nav-link" href="{% url 'displaymyoperations' %}">عملياتي <span class="sr-only">(الحالى)</span></a>
           </li>
-  
+          <li>
+         
+            <a class="nav-link" href="{% url 'displaymydelayoperations' %}">عملياتي المؤجلة <span class="sr-only">(الحالى)</span></a>
+          </li>
           <li>  
           {% if 'signin' in request.path or 'signup' in request.path or 'profile' in request.path %}
             class="nav-item dropdown active"

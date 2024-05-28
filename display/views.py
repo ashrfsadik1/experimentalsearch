@@ -213,4 +213,39 @@ def displaymyoperations(request):
 
     # عرض القالب (template) مع البيانات
     return render(request, 'display/displaymyoperations.html', context)
+def displaymydelayoperations(request):
+    # استرداد بيانات المستخدم الحالي
+    current_user = request.user
+    print("helllo")
+    print(current_user)
+    userprofile=UserProfile.objects.get(user=current_user)
+    # استعلام بيانات العروض التي قام المستخدم بتقييمها
+    display_data = Display_Data.objects.filter(users=userprofile,choosenum=5).order_by('-puplish_date')
+
+    #display_data = Display_Data.objects.filter(users=userprofile)
+    # تحويل قيمة التقييم إلى نص وصفي
+    for display_datum in display_data:
+        if display_datum.choosenum == 1:
+            display_datum.choosenum_text = "نجاح"
+        elif display_datum.choosenum == 2:
+            display_datum.choosenum_text = "فشل"
+        elif display_datum.choosenum == 3:
+            display_datum.choosenum_text = "بحاجة إلى مال"
+        elif display_datum.choosenum == 4:
+            display_datum.choosenum_text = "بحاجة إلى أدوات"
+        else:
+            display_datum.choosenum_text = "مؤجل"
+
+   
+    # تحضير سياق العرض (context)
+    context = {
+        'display_data': display_data,
+         
+    }
+    print("hello")
+    print (context)
+
+    # عرض القالب (template) مع البيانات
+    return render(request, 'display/displaymydelayoperations.html', context)
+
 
