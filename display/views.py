@@ -98,7 +98,7 @@ def display_video(request, url):
     
     # تشكيل الـ URL الكامل لإطار الفيديو على YouTube
     embed_url = f"https://www.youtube.com/embed/{url}"
-    full_url = f"https://www.youtube.com/watch?v={url}"
+    full_url = f"https://www.youtube.com/watch?v={url}" #للاستخلاص من خلال الامر soup
     soup = BeautifulSoup(requests.get(full_url).content, "html.parser")
     title = soup.title.text
     # استخدم نموذج "display_data"
@@ -120,17 +120,18 @@ def display_video(request, url):
 
 def display_web(request, url):
     # تشكيل الـ URL الكامل لإطار الفيديو على YouTube
-    full_url = unquote(url)
+    embed_url = unquote(url)
 
     # استخراج عنوان الموقع من URL
-    soup = BeautifulSoup(requests.get(full_url).content, "html.parser")
+    soup = BeautifulSoup(requests.get(embed_url).content, "html.parser")
     title = soup.title.text
-    countArry=check_url_exists_and_evluate(full_url)
-    Darry=check_url_exists_and_date(full_url)
-    print (countArry)
-    print (Darry)
+    countArry=check_url_exists_and_evluate( embed_url)
+    Darry=check_url_exists_and_date( embed_url)
+    print ( embed_url)
+    print(title)
     
-    data = mydata(full_url, title, countArry, Darry)
+    
+    data = mydata( embed_url, title, countArry, Darry)
     return render(request, 'display/webviewA.html', {'data':data })
 def is_youtube_url(url):
 
@@ -181,6 +182,8 @@ def submit_operation(request):
 def displaymyoperations(request):
     # استرداد بيانات المستخدم الحالي
     current_user = request.user
+    print("helllo")
+    print(current_user)
     userprofile=UserProfile.objects.get(user=current_user)
     # استعلام بيانات العروض التي قام المستخدم بتقييمها
     display_data = Display_Data.objects.filter(users=userprofile).order_by('-puplish_date')
@@ -205,6 +208,8 @@ def displaymyoperations(request):
         'display_data': display_data,
          
     }
+    print("hello")
+    print (context)
 
     # عرض القالب (template) مع البيانات
     return render(request, 'display/displaymyoperations.html', context)

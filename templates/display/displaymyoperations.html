@@ -33,7 +33,7 @@
             <a href="{% url 'display_video' url=video_id %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
         {% endwith %}
     {% else %}
-    {% with weburl=display_datum.displays.url|stringformat:"s" %}
+    {% with weburl=display_datum.displays.url|urlencode %}
     <a href="{% url 'display_web' url=weburl %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
 {% endwith %}
 
