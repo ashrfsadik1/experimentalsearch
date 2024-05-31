@@ -1,7 +1,7 @@
 from django.shortcuts import render , redirect,reverse
 from urllib.parse import unquote,urlparse
 
-from .models import Display,Display_Data
+from .models import Display,Display_Data,Display_Degree
 from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
@@ -40,6 +40,7 @@ class mydata:
 
 #     return user_info_array
           
+
 
 def check_url_exists_and_date(url_to_check):
     dateArray = []
@@ -141,7 +142,13 @@ def is_youtube_url(url):
     
    return bool(match)
 
-
+   def savedisplaydegreeatbegining(display,choosenum):
+                if choosenum==1:
+                    degree =Display_Degree.objects.get(display=display)
+                    d=degree.displaydegree
+                    d+=1
+                    display_degree=Display_Degree(display=display,display_degree=d)
+                    display_degree.save() 
 def submit_operation(request):
     if request.method == 'POST':
         url = request.POST.get('url')
@@ -162,13 +169,17 @@ def submit_operation(request):
         #display=Display.objects.get(url=url,text=text)
     try:
             display = Display.objects.get(url=url, text=text)
+            
+           
     except :
             display = Display(url=url, text=text,isyoutube=isyoutube)
             display.save()
 
        # Import the UserProfile model
     user_profile = UserProfile.objects.get(user=request.user)
-    
+    print("hello")
+    print(user_profile)
+    #savedisplaydegreeatbegining(display,choosenum)
     #print(display.index)
     display_data = Display_Data.objects.create(displays=display,choosenum=choosenum)
     display_data.users.add(user_profile)

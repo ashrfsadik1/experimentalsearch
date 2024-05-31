@@ -21,6 +21,9 @@ class  Display_Data(models.Model) :
          puplish_date =models.DateTimeField(default=datetime.now) 
 class Meta:
         ordering =['-puplish_date']
+class Display_Degree(models.Model):
+       display=models.OneToOneField(Display,on_delete=models.CASCADE)
+       displaydegree=models.IntegerField(default=0)        
 
     
     
