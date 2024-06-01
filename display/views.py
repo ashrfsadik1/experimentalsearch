@@ -7,7 +7,7 @@ import requests
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
-from accounts.models import UserProfile
+from accounts.models import UserProfile,UserDegree
 import re
 
 
@@ -142,13 +142,46 @@ def is_youtube_url(url):
     
    return bool(match)
 
-   def savedisplaydegreeatbegining(display,choosenum):
-                if choosenum==1:
-                    degree =Display_Degree.objects.get(display=display)
-                    d=degree.displaydegree
-                    d+=1
-                    display_degree=Display_Degree(display=display,display_degree=d)
-                    display_degree.save() 
+
+
+
+
+def savedisplaydegreeatbegining(request, display, choosenum):
+    try:
+        user = request.user  # الحصول على المستخدم الحالي مباشرة
+        user_degree, created = UserDegree.objects.get_or_create(user=user, defaults={'userdegree': 1})
+
+
+        if user_degree.userdegree > 0:
+            try:
+                degree = Display_Degree.objects.get(display=display)
+                d = degree.displaydegree
+
+                if choosenum == 1:
+                    d += 1
+                elif choosenum == 2:
+                    d -= 1
+                else:
+                    return  # الخروج من الدالة إذا لم يكن choosenum 1 أو 2
+
+                # تحديث الدرجة وحفظها
+                degree.displaydegree = d
+                degree.save()
+
+            except Display_Degree.DoesNotExist:
+                # إذا لم يتم العثور على السجل، إنشاء سجل جديد مع درجة ابتدائية
+                degree = Display_Degree(display=display, displaydegree=1)
+                degree.save()
+        else:
+            pass  # الخروج من الدالة إذا كان userdegree <= 0
+
+    except UserDegree.DoesNotExist:
+        # إذا لم يتم العثور على UserDegree للمستخدم، يمكن إضافة سلوك افتراضي هنا
+        pass
+    except UserDegree.DoesNotExist:
+        # إذا لم يتم العثور على السجل، يمكن إضافة سلوك افتراضي هنا
+        pass
+
 def submit_operation(request):
     if request.method == 'POST':
         url = request.POST.get('url')
@@ -177,13 +210,17 @@ def submit_operation(request):
 
        # Import the UserProfile model
     user_profile = UserProfile.objects.get(user=request.user)
-    print("hello")
-    print(user_profile)
-    #savedisplaydegreeatbegining(display,choosenum)
+    
+
+    
+    
+    
     #print(display.index)
     display_data = Display_Data.objects.create(displays=display,choosenum=choosenum)
     display_data.users.add(user_profile)
-    
+    # user=User.objects.get(username=request.user)
+    # user_degree=UserDegree.objects.get(user)
+    savedisplaydegreeatbegining(request,display,choosenum)
 
         
         #display_data.users.add(request.user)  # Add user to Display_Data
