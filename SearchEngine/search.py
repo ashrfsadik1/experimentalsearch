@@ -7,41 +7,54 @@ from urllib.parse import quote
 
 
 # done
+
+
+
+
+
 def google(s):
     links = []
     text = []
+    images = []  # لإضافة الصور
     
     USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36'
     headers = {"user-agent": USER_AGENT}
     r = requests.get("https://www.google.com/search?q=" + s, headers=headers)
     soup = BeautifulSoup(r.content, "html.parser")
-    for g in soup.find_all('div', class_='nhaZ2c'):#لمواقع اليوتيوب
     
+    # استخلاص فيديوهات اليوتيوب
+    for g in soup.find_all('div', class_='nhaZ2c'):
         a = g.find('a')
         t = g.find('h3')
-        fullurl=a.get("href")
+        fullurl = a.get("href")
         youtube_id = parse_qs(urlparse(fullurl).query).get('v', [None])[0]
         display_url = reverse('display_video', kwargs={'url': youtube_id})
+        
         links.append(display_url)
-        
-        
-        
-       
-        
         text.append(t.text)
-    #return links, text
-    for g in soup.find_all('div', class_='yuRUbf'):#لمواقع النت
+        thumbnail_url = f"https://img.youtube.com/vi/{youtube_id}/hqdefault.jpg"
+        images.append(thumbnail_url)    
+            
     
+    # استخلاص مواقع الإنترنت
+    for g in soup.find_all('div', class_='yuRUbf'):
         a = g.find('a')
         t = g.find('h3')
-        furl=a.get("href")
+        furl = a.get("href")
         encoded_url = quote(furl, safe='')
         display_url = reverse('display_web', kwargs={'url': encoded_url})
         
-                
         links.append(display_url)
         text.append(t.text)
-    return links, text
+        
+        # للحصول على صورة للموقع (يحتاج إلى خدمة خارجية)
+        site_thumbnail_url = f"https://api.page2images.com/directlink?p2i_url={encoded_url}&p2i_key=c268531c8235069b"
+        images.append(site_thumbnail_url)
+    
+    return links, text, images
+
+# ملاحظة: تأكد من استبدال `YOUR_API_KEY` بمفتاح API الخاص بك لخدمة التقاط الصور من صفحة الويب.
+
     # Somethime request.code == 500
 """ def yahoo(s):
     links = []

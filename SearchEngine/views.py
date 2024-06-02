@@ -31,8 +31,8 @@ def searchpage(request):
 def results(request):
     if request.method == "POST":
         result = request.POST.get('search')
-        google_link,google_text = google(result)
-        google_data = zip(google_link,google_text )
+        google_link,google_text,google_image= google(result)
+        google_data = zip(google_link,google_text,google_image )
         # yahoo_link,yahoo_text = yahoo(result)
         # yahoo_data = zip(yahoo_link,yahoo_text)
         # duck_link,duck_text = duck(result)
