@@ -48,7 +48,7 @@ def google(s):
         text.append(t.text)
         
         # للحصول على صورة للموقع (يحتاج إلى خدمة خارجية)
-        site_thumbnail_url = f"https://api.page2images.com/directlink?p2i_url={encoded_url}&p2i_key=c268531c8235069b"
+        site_thumbnail_url = f"https://api.page2images.com/directlink?p2i_url={encoded_url}&p2i_key=bf036f37d1181016"
         images.append(site_thumbnail_url)
     
     return links, text, images
