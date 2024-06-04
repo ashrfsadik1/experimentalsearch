@@ -10,11 +10,11 @@
         <!-- عرض الموقع داخل إطار -->
         {% comment %} <iframe width="100%" height="500" src="{{data.embed_url}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> {% endcomment %}
         <h2 style="text-align: center;">انقر علي الصورة لتصفح الموقع ثم عد لتقييمة</h2>
-        <a href="{{ data.embed_url  }}" target="_blank"> class="btn mt-3 w-100"><img src="{% static 'img/advissse.svg' %}" style="width:300px;height:300px">
+        <a href="{{ data.full_url  }}" target="_blank"> class="btn mt-3 w-100"><img src="{% static 'img/advissse.svg' %}" style="width:300px;height:300px">
          
             {{ data.title }}   
             
-        <input type="hidden" name="url" value="{{ data.embed_url}}">
+        <input type="hidden" name="url" value="{{ data.full_url}}">
         <input type="hidden" name="title" value="{{ data.title}}">
        
         {% include 'display/partials/frpbuttons.html' %}

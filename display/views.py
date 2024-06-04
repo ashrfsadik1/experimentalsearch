@@ -13,32 +13,15 @@ import re
 
 # Create your views here.
 class mydata:
-    def __init__(self, embed_url, title, countArry, Darry):
-        self.embed_url = embed_url
+    def __init__(self, full_url, title, countArry, Darry):
+        self.full_url = full_url
         self.title = title
         self.countArry = countArry
         self.Darry = Darry
         
  
 
-# def check_url_exists_and_person(url_to_check):
-#     user_info_array = []
 
-#     for i in range(1, 6):
-#         latest_successful_record = Display_Data.objects.filter(displays__url=url_to_check, choosenum=i).order_by('-puplish_date').first()
-
-#         if latest_successful_record:  # Check if record exists before accessing attributes
-#             user_info = {
-#                 'user_nickname': latest_successful_record.users.user_nickname,
-#                 'url': latest_successful_record.users.nikename_url,
-#             }
-#             user_info_array.append(user_info)
-#         else:
-#             # Handle the case where no matching record is found (optional)
-#             # You can add logic here to handle missing data, e.g., return an empty dictionary
-#             pass
-
-#     return user_info_array
           
 
 
@@ -59,6 +42,29 @@ def check_url_exists_and_date(url_to_check):
 
     return dateArray
 
+
+def get_evaluation_history(url_to_check):
+    try:
+        # محاولة استرداد سجل بناءً على الرابط المعطى
+        display_obj = Display.objects.get(url=url_to_check)
+        
+        # الحصول على جميع التقييمات المرتبطة بالـ Display المعطى بترتيب زمني تنازلي
+        evaluations = Display_Data.objects.filter(displays=display_obj).order_by('-puplish_date')
+        
+        # إنشاء قائمة من التقييمات بترتيب زمني من الأحدث إلى الأقدم
+        evaluation_history = [{'choosenum': eval.choosenum} for eval in evaluations]
+        print("hello")
+        print (evaluation_history)
+            
+        return evaluation_history
+    except Display.DoesNotExist:
+        # إذا لم يتم العثور على الرابط في قاعدة البيانات، نعيد قائمة فارغة
+        return []
+
+
+
+
+    
 def check_url_exists_and_date(url_to_check):
     
     try:
@@ -79,6 +85,7 @@ def check_url_exists_and_date(url_to_check):
     except Display.DoesNotExist:
         countArray= [0,0,0,0,0]
         return dateArray
+    
 def check_url_exists_and_evluate(url_to_check):
     try:
         countArray= []
@@ -95,18 +102,22 @@ def check_url_exists_and_evluate(url_to_check):
     except Display.DoesNotExist:
         countArray= [0,0,0,0,0]
         return countArray
-def display_video(request, url):
+def display_video(request, url,imageurl):
     
     # تشكيل الـ URL الكامل لإطار الفيديو على YouTube
     embed_url = f"https://www.youtube.com/embed/{url}"
     full_url = f"https://www.youtube.com/watch?v={url}" #للاستخلاص من خلال الامر soup
     soup = BeautifulSoup(requests.get(full_url).content, "html.parser")
     title = soup.title.text
+    print("hi")
+    print("title")
     # استخدم نموذج "display_data"
     countArry=check_url_exists_and_evluate(embed_url)
     Darry=check_url_exists_and_date(embed_url)
+    #evih=get_evaluation_history(embed_url)
     
-    data = mydata(embed_url, title, countArry, Darry)
+    data = mydata(full_url, title, countArry, Darry)
+    imgurl=imageurl
 # استخدم "Count" لحساب عدد السجلات
         
 
@@ -115,24 +126,24 @@ def display_video(request, url):
                  
 
         # مرر الـ embed_url وعنوان الفيديو إلى القالب
-    return render(request, 'display/videoA.html', {'data':data})
+    return render(request, 'display/videoA.html', {'data':data,'imgurl':imgurl})
     #return render(request, 'display/videoA.html', {'embed_url': embed_url , 'title': title,'carry_0': countArry[0], 'carry_1': countArry[1], 'carry_2': countArry[2], 'carry_3': countArry[3], 'carry_4': countArry[4],'d0':Darry[0],'d1':Darry[1],'d2':Darry[2],'d3':Darry[3],'d4':Darry[4]})
     
 
 def display_web(request, url):
     # تشكيل الـ URL الكامل لإطار الفيديو على YouTube
-    embed_url = unquote(url)
+    full_url = unquote(url)
 
     # استخراج عنوان الموقع من URL
-    soup = BeautifulSoup(requests.get(embed_url).content, "html.parser")
+    soup = BeautifulSoup(requests.get(full_url).content, "html.parser")
     title = soup.title.text
-    countArry=check_url_exists_and_evluate( embed_url)
-    Darry=check_url_exists_and_date( embed_url)
-    print ( embed_url)
+    countArry=check_url_exists_and_evluate( full_url)
+    Darry=check_url_exists_and_date( full_url)
+    print ( full_url)
     print(title)
     
     
-    data = mydata( embed_url, title, countArry, Darry)
+    data = mydata(full_url, title, countArry, Darry)
     return render(request, 'display/webviewA.html', {'data':data })
 def is_youtube_url(url):
 
@@ -220,7 +231,7 @@ def submit_operation(request):
     display_data.users.add(user_profile)
     # user=User.objects.get(username=request.user)
     # user_degree=UserDegree.objects.get(user)
-    savedisplaydegreeatbegining(request,display,choosenum)
+    #savedisplaydegreeatbegining(request,display,choosenum)
 
         
         #display_data.users.add(request.user)  # Add user to Display_Data

@@ -28,11 +28,12 @@ def google(s):
         t = g.find('h3')
         fullurl = a.get("href")
         youtube_id = parse_qs(urlparse(fullurl).query).get('v', [None])[0]
-        display_url = reverse('display_video', kwargs={'url': youtube_id})
+        thumbnail_url = f"https://img.youtube.com/vi/{youtube_id}/hqdefault.jpg"
+        display_url = reverse('display_video', kwargs={'url': youtube_id,'imageurl':thumbnail_url})
         
         links.append(display_url)
         text.append(t.text)
-        thumbnail_url = f"https://img.youtube.com/vi/{youtube_id}/hqdefault.jpg"
+       
         images.append(thumbnail_url)    
             
     
