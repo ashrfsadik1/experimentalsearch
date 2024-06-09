@@ -1,21 +1,22 @@
 from django.shortcuts import render , redirect,reverse
 from urllib.parse import unquote,urlparse
 
-from .models import Display,Display_Data,Display_Degree
+from .models import Display,Display_Data,SearchTxt
 from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
-from accounts.models import UserProfile,UserDegree
+from accounts.models import UserProfile
 import re
 
 
 # Create your views here.
 class mydata:
-    def __init__(self, full_url, title, countArry, Darry):
+    def __init__(self, full_url, title,searchtxt, countArry, Darry):
         self.full_url = full_url
         self.title = title
+        self.searchtxt=searchtxt
         self.countArry = countArry
         self.Darry = Darry
         
@@ -102,22 +103,22 @@ def check_url_exists_and_evluate(url_to_check):
     except Display.DoesNotExist:
         countArray= [0,0,0,0,0]
         return countArray
-def display_video(request, url,imageurl):
+def display_video(request, url,searchtxt):
     
     # تشكيل الـ URL الكامل لإطار الفيديو على YouTube
-    embed_url = f"https://www.youtube.com/embed/{url}"
-    full_url = f"https://www.youtube.com/watch?v={url}" #للاستخلاص من خلال الامر soup
-    soup = BeautifulSoup(requests.get(full_url).content, "html.parser")
+    full_url = f"https://www.youtube.com/embed/{url}"
+    embed_url = f"https://www.youtube.com/watch?v={url}" #للاستخلاص من خلال الامر soup
+    soup = BeautifulSoup(requests.get(embed_url).content, "html.parser")
     title = soup.title.text
     print("hi")
     print("title")
     # استخدم نموذج "display_data"
-    countArry=check_url_exists_and_evluate(embed_url)
-    Darry=check_url_exists_and_date(embed_url)
+    countArry=check_url_exists_and_evluate(full_url)
+    Darry=check_url_exists_and_date(full_url)
     #evih=get_evaluation_history(embed_url)
-    
-    data = mydata(full_url, title, countArry, Darry)
-    imgurl=imageurl
+    searchtxt=searchtxt
+    data = mydata(full_url, title,searchtxt, countArry, Darry)
+
 # استخدم "Count" لحساب عدد السجلات
         
 
@@ -126,7 +127,7 @@ def display_video(request, url,imageurl):
                  
 
         # مرر الـ embed_url وعنوان الفيديو إلى القالب
-    return render(request, 'display/videoA.html', {'data':data,'imgurl':imgurl})
+    return render(request, 'display/videoA.html', {'data':data})
     #return render(request, 'display/videoA.html', {'embed_url': embed_url , 'title': title,'carry_0': countArry[0], 'carry_1': countArry[1], 'carry_2': countArry[2], 'carry_3': countArry[3], 'carry_4': countArry[4],'d0':Darry[0],'d1':Darry[1],'d2':Darry[2],'d3':Darry[3],'d4':Darry[4]})
     
 
@@ -194,7 +195,14 @@ def savedisplaydegreeatbegining(request, display, choosenum):
         pass
 
 def submit_operation(request):
+    
     if request.method == 'POST':
+        stxt=request.POST.get('searchtxt')
+        try :
+            searchtxt=SearchTxt.objects.get(text=stxt)
+        except:
+            searchtxt=SearchTxt(text=stxt)
+            searchtxt.save()   
         url = request.POST.get('url')
         
     if is_youtube_url(url):
@@ -210,13 +218,14 @@ def submit_operation(request):
         
         
     choosenum = int(choosenum)
+    
         #display=Display.objects.get(url=url,text=text)
     try:
-            display = Display.objects.get(url=url, text=text)
+            display = Display.objects.get(searchtxt=searchtxt,url=url, text=text)
             
            
     except :
-            display = Display(url=url, text=text,isyoutube=isyoutube)
+            display = Display(searchtxt=searchtxt,url=url, text=text,isyoutube=isyoutube)
             display.save()
 
        # Import the UserProfile model
@@ -227,6 +236,8 @@ def submit_operation(request):
     
     
     #print(display.index)
+    #searchtxt=SearchTxt.objects.create(text=stxt)
+
     display_data = Display_Data.objects.create(displays=display,choosenum=choosenum)
     display_data.users.add(user_profile)
     # user=User.objects.get(username=request.user)

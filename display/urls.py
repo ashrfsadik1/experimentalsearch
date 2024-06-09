@@ -9,7 +9,7 @@ from .views import displaymydelayoperations
 from . import views
 urlpatterns = [
     path('display/<str:url>/', display_web, name='display_web'),
-     path('display/display_video/<str:url>/<path:imageurl>/', views.display_video, name='display_video'),
+     path('display/display_video/<str:url>/<str:searchtxt>', views.display_video, name='display_video'),
     #re_path(r'^display_web/(?P<url>.+)$',views.display_web, name='display_web'),
     path('submit_operation/', submit_operation, name='submit_operation'),
     path('displaymyoperations/', displaymyoperations, name='displaymyoperations'),

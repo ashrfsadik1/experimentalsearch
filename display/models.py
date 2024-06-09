@@ -7,13 +7,17 @@ from django.db import models
 from datetime import datetime
 from  accounts.models import UserProfile
 
-
+class SearchTxt(models.Model):
+       text=models.CharField(unique=True,max_length=150,default="word")
+       date=models.DateTimeField(default=datetime.now)
 
 class Display(models.Model) :
+    searchtxt=models.ForeignKey(SearchTxt,on_delete=models.CASCADE,default=1)
     url=models.URLField(unique=True)
     text = models.CharField(max_length=150) 
     isyoutube=models.BooleanField(default=True)
-    
+    displaydegree=models.IntegerField(default=1) 
+   
 class  Display_Data(models.Model) :
          displays = models.ForeignKey(Display,on_delete=models.CASCADE,default=1)  
          users= models.ManyToManyField(UserProfile,default=1)
@@ -21,9 +25,6 @@ class  Display_Data(models.Model) :
          puplish_date =models.DateTimeField(default=datetime.now) 
 class Meta:
         ordering =['-puplish_date']
-class Display_Degree(models.Model):
-       display=models.OneToOneField(Display,on_delete=models.CASCADE)
-       displaydegree=models.IntegerField(default=0)        
 
     
     

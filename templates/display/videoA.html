@@ -8,17 +8,17 @@
 <form action="{% url 'submit_operation' %}" method="post">
     {% csrf_token %}   
  <!-- عرض الفيديو داخل إطار -->
- {% comment %} <iframe  width="100%" height="500" src="{{ data.embed_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> {% endcomment %}
- <h2 style="text-align: center;">انقر علي الصورة لتصفح الموقع ثم عد لتقييمة</h2>
+  <iframe  width="100%" height="500" src="{{ data.full_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+ {% comment %} <h2 style="text-align: center;">انقر علي الصورة لتصفح الموقع ثم عد لتقييمة</h2>
         <a href="{{ data.full_url  }}" target="_blank"> class="btn mt-3 w-100"><img src="{{imgurl}}" style="width:100%;height:40%">
          
             {{ data.title }}   
-            
+             {% endcomment %}
         <input type="hidden" name="url" value="{{ data.full_url}}">
         <input type="hidden" name="title" value="{{ data.title}}">
+        <input type="hidden" name="searchtxt" value="{{data.searchtxt}}">
        
- <input type="hidden" name="url" value="{{ data.embed_url }}">
- <input type="hidden" name="title" value="{{ data.title }}">
+ 
  
  {% include 'display/partials/frpbuttons.html' %}    
  {% include 'display/partials/savedurl.html' %} 

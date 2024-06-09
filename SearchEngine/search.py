@@ -16,7 +16,7 @@ def google(s):
     links = []
     text = []
     images = []  # لإضافة الصور
-    
+    searchtxt=s  
     USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36'
     headers = {"user-agent": USER_AGENT}
     r = requests.get("https://www.google.com/search?q=" + s, headers=headers)
@@ -29,7 +29,7 @@ def google(s):
         fullurl = a.get("href")
         youtube_id = parse_qs(urlparse(fullurl).query).get('v', [None])[0]
         thumbnail_url = f"https://img.youtube.com/vi/{youtube_id}/hqdefault.jpg"
-        display_url = reverse('display_video', kwargs={'url': youtube_id,'imageurl':thumbnail_url})
+        display_url = reverse('display_video', kwargs={'url': youtube_id,'searchtxt':searchtxt})
         
         links.append(display_url)
         text.append(t.text)
