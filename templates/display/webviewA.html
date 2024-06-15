@@ -11,6 +11,11 @@
             display: none;
             text-align: center;
         }
+        .rtl-label {
+            direction: rtl;
+            text-align: right;
+            display: block; /* لضمان أن التسمية تظهر في سطر منفصل */
+        }
     </style>
 </head>
 <body>
@@ -26,8 +31,12 @@
                 {{ data.title }}
             </a>
         </div>
+        <label for="currentUrl" class="rtl-label">الرابط الحالي:</label>
 
-        <input type="hidden" name="url" value="{{ data.full_url }}">
+
+        <input type="text" name="url" id="currentUrl" value="{{ data.full_url }}"  style="width:100%;">
+
+        {% comment %} <input type="hidden" name="url" value="{{ data.full_url }}"> {% endcomment %}
         <input type="hidden" name="title" value="{{ data.title }}">
         <input type="hidden" name="searchtxt" value="{{ data.searchtxt }}">
         {% include 'display/partials/frpbuttons.html' %}
@@ -41,6 +50,7 @@
         iframe.onload = function() {
             // يتم تنفيذ هذا الكود إذا تم تحميل الـ iframe بنجاح
             console.log('iframe loaded successfully');
+            fallbackContent.style.display = 'none'; // أخفِ محتوى البديل
         };
 
         iframe.onerror = function() {
@@ -50,7 +60,7 @@
             fallbackContent.style.display = 'block';
         };
 
-        // هناك طريقة أخرى للتحقق إذا كان iframe يسمح بالتحميل أم لا
+        // تحقق بشكل دوري من تحميل الـ iframe
         setTimeout(function() {
             try {
                 const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
@@ -58,12 +68,13 @@
                     throw new Error('iframe content is not accessible');
                 }
                 console.log('iframe content is accessible');
+                fallbackContent.style.display = 'none'; // أخفِ محتوى البديل إذا كان iframe محملاً بنجاح
             } catch (e) {
                 console.log('iframe content is not accessible');
                 iframe.style.display = 'none';
                 fallbackContent.style.display = 'block';
             }
-        }, 8000); // انتظر 8 ثوانٍ قبل التحقق
+        }, 8000); // انتظر 8 ثوانٍ قبل التحقق 
     </script>
 </body>
 
