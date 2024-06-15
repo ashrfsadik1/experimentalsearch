@@ -43,7 +43,7 @@ def google(s):
         t = g.find('h3')
         furl = a.get("href")
         encoded_url = quote(furl, safe='')
-        display_url = reverse('display_web', kwargs={'url': encoded_url})
+        display_url = reverse('display_web', kwargs={'url': encoded_url,'searchtxt':searchtxt})
         
         links.append(display_url)
         text.append(t.text)

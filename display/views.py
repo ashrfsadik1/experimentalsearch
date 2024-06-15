@@ -131,7 +131,7 @@ def display_video(request, url,searchtxt):
     #return render(request, 'display/videoA.html', {'embed_url': embed_url , 'title': title,'carry_0': countArry[0], 'carry_1': countArry[1], 'carry_2': countArry[2], 'carry_3': countArry[3], 'carry_4': countArry[4],'d0':Darry[0],'d1':Darry[1],'d2':Darry[2],'d3':Darry[3],'d4':Darry[4]})
     
 
-def display_web(request, url):
+def display_web(request, url,searchtxt):
     # تشكيل الـ URL الكامل لإطار الفيديو على YouTube
     full_url = unquote(url)
 
@@ -143,8 +143,8 @@ def display_web(request, url):
     print ( full_url)
     print(title)
     
-    
-    data = mydata(full_url, title, countArry, Darry)
+    searchtxt=searchtxt
+    data = mydata(full_url, title,searchtxt, countArry, Darry)
     return render(request, 'display/webviewA.html', {'data':data })
 def is_youtube_url(url):
 
@@ -158,41 +158,7 @@ def is_youtube_url(url):
 
 
 
-def savedisplaydegreeatbegining(request, display, choosenum):
-    try:
-        user = request.user  # الحصول على المستخدم الحالي مباشرة
-        user_degree, created = UserDegree.objects.get_or_create(user=user, defaults={'userdegree': 1})
 
-
-        if user_degree.userdegree > 0:
-            try:
-                degree = Display_Degree.objects.get(display=display)
-                d = degree.displaydegree
-
-                if choosenum == 1:
-                    d += 1
-                elif choosenum == 2:
-                    d -= 1
-                else:
-                    return  # الخروج من الدالة إذا لم يكن choosenum 1 أو 2
-
-                # تحديث الدرجة وحفظها
-                degree.displaydegree = d
-                degree.save()
-
-            except Display_Degree.DoesNotExist:
-                # إذا لم يتم العثور على السجل، إنشاء سجل جديد مع درجة ابتدائية
-                degree = Display_Degree(display=display, displaydegree=1)
-                degree.save()
-        else:
-            pass  # الخروج من الدالة إذا كان userdegree <= 0
-
-    except UserDegree.DoesNotExist:
-        # إذا لم يتم العثور على UserDegree للمستخدم، يمكن إضافة سلوك افتراضي هنا
-        pass
-    except UserDegree.DoesNotExist:
-        # إذا لم يتم العثور على السجل، يمكن إضافة سلوك افتراضي هنا
-        pass
 
 def submit_operation(request):
     
@@ -252,8 +218,7 @@ def submit_operation(request):
 def displaymyoperations(request):
     # استرداد بيانات المستخدم الحالي
     current_user = request.user
-    print("helllo")
-    print(current_user)
+    
     userprofile=UserProfile.objects.get(user=current_user)
     # استعلام بيانات العروض التي قام المستخدم بتقييمها
     display_data = Display_Data.objects.filter(users=userprofile).order_by('-puplish_date')
@@ -278,8 +243,7 @@ def displaymyoperations(request):
         'display_data': display_data,
          
     }
-    print("hello")
-    print (context)
+    
 
     # عرض القالب (template) مع البيانات
     return render(request, 'display/displaymyoperations.html', context)
