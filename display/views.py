@@ -158,7 +158,8 @@ def is_youtube_url(url):
 
 
 
-
+# def makeavalueforurl(request,url,choosenum):
+     
 
 def submit_operation(request):
     
@@ -184,7 +185,7 @@ def submit_operation(request):
         
         
     choosenum = int(choosenum)
-    
+    # displaydegree=makeavalueforurl(request,url,choosenum)
         #display=Display.objects.get(url=url,text=text)
     try:
             display = Display.objects.get(searchtxt=searchtxt,url=url, text=text)
