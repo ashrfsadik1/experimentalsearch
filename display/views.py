@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 from accounts.models import UserProfile
 import re
-
+from .models import SearchTxt, Display, Display_Data, searchtxt_display
 
 # Create your views here.
 class mydata:
@@ -188,11 +188,11 @@ def submit_operation(request):
     # displaydegree=makeavalueforurl(request,url,choosenum)
         #display=Display.objects.get(url=url,text=text)
     try:
-            display = Display.objects.get(searchtxt=searchtxt,url=url, text=text)
+            display = Display.objects.get(url=url, text=text)
             
            
     except :
-            display = Display(searchtxt=searchtxt,url=url, text=text,isyoutube=isyoutube)
+            display = Display(url=url, text=text,isyoutube=isyoutube)
             display.save()
 
        # Import the UserProfile model
@@ -207,6 +207,11 @@ def submit_operation(request):
 
     display_data = Display_Data.objects.create(displays=display,choosenum=choosenum)
     display_data.users.add(user_profile)
+    # Create or get searchtxt_display instance
+    searchtxt_display_instance, created = searchtxt_display.objects.get_or_create(
+           searchtxt=searchtxt,
+            display=display
+        )
     # user=User.objects.get(username=request.user)
     # user_degree=UserDegree.objects.get(user)
     #savedisplaydegreeatbegining(request,display,choosenum)
@@ -277,8 +282,7 @@ def displaymydelayoperations(request):
         'display_data': display_data,
          
     }
-    print("hello")
-    print (context)
+   
 
     # عرض القالب (template) مع البيانات
     return render(request, 'display/displaymydelayoperations.html', context)
