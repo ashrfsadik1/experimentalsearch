@@ -20,24 +20,34 @@ class Display(models.Model):
     displaydegree = models.IntegerField(default=1)
 
     def evaluate_site(self):
-        # الحصول على عدد السجلات التي تساوي 1 وعدد السجلات التي تساوي 2
-        aggregates = self.display_data_set.aggregate(
-            count_1=Count('id', filter=models.Q(choosenum=1)),
-            count_2=Count('id', filter=models.Q(choosenum=2))
-        )
+        # حساب عدد السجلات التي تنتمي إلى هذا العرض والتي لديها choosenum = 1 و choosenum = 2
+        count_1 = self.display_data_set.filter(choosenum=1).count()
+        count_2 = self.display_data_set.filter(choosenum=2).count()
 
-        count_1 = aggregates['count_1'] or 0
-        count_2 = aggregates['count_2'] or 0
-        print("hello")
-        print (count_1)
-        print(count_2)
         # حساب الدرجة النهائية
         total_score = count_1 - count_2
-        print("hi")
-        print(total_score)
+        
+        
+         # حساب countsucssesorfail وتحديد current
+        countsucssesorfail = count_1 + count_2
+        if countsucssesorfail > 5:
+            current = round(countsucssesorfail / 6)  # تقريب النتيجة إلى أقرب عدد صحيح
+            # استخراج عدد معين من آخر السجلات التي تقيم الموقع
+           
+            last_records = self.display_data_set.order_by('-puplish_date')[current:]
+            # استخراج عدد السجلات التي choosenum=1 وعدد السجلات التي choosenum=2 من last_records
+            count_successfulcurrent = last_records.filter(choosenum=1).count()
+            count_failedcurrent = last_records.filter(choosenum=2).count()
+           # حساب الدرجة النهائية
+            total_score_current = count_successfulcurrent - count_failedcurrent
+            total_score=total_score+total_score_current
+
 
         # تحديث درجة العرض
         self.displaydegree = total_score
+        print("hello")
+        print(self.displaydegree)
+
         self.save()
 class searchtxt_display(models.Model):
      searchtxt = models.ForeignKey(SearchTxt, on_delete=models.CASCADE, default=1)
