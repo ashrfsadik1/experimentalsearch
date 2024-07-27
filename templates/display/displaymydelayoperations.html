@@ -27,14 +27,31 @@
          
           
 
-          {% for display_datum in display_data %}
+          {% comment %} {% for display_datum in display_data %}
     {% if display_datum.displays.isyoutube %}
-    {% with video_id=display_datum.displays.url|slice:"30:" %}
+     {% with video_id=display_datum.displays.url|slice:"30:" %} 
+    
             <a href="{% url 'display_video' url=video_id %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
         {% endwith %}
     {% else %}
     {% with weburl=display_datum.displays.url|urlencode %}
     <a href="{% url 'display_web' url=weburl %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
+{% endwith %}
+
+
+        
+    {% endif %}
+    <strong>{{ display_datum.choosenum_text }}</strong> {{ display_datum.puplish_date }}<br>
+{% endfor %} {% endcomment %}
+    {% for display_datum in display_data %}
+    {% if display_datum.displays.isyoutube %}
+    {% with video_id=display_datum.displays.url|slice:"30:" %}
+            <a href="{% url 'display_video' url=video_id searchtxt=display_datum.displays.searchtxt.text %}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
+        {% endwith %}
+    {% else %}
+    {% with weburl=display_datum.displays.url|stringformat:"s" %}
+    <a href="{% url 'display_web' url=display_datum.displays.url searchtxt=display_datum.displays.searchtxt.text%}" class="btn mt-3 w-100">{{ display_datum.displays.text }}</a>
+
 {% endwith %}
 
 
