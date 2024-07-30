@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from SearchEngine.search import google
 from django.contrib.auth.models import User
 from display.models import Display,Display_Data
+from django.contrib import messages
 #from SearchEngine.search import google,yahoo,duck,ecosia, bing, givewater
 
 def homepage(request):
@@ -27,7 +28,12 @@ def homepage(request):
     return render(request,'index.html',{'context':context})
 
 def searchpage(request):
-    return render(request,'home.html')
+    if not request.user.is_authenticated:
+        messages.error(request,"يجب عليك ان تسجل الدخول قبل البحث")
+        return render(request,"index.html")
+
+    else:    
+        return render(request,'home.html')
 def results(request):
     if request.method == "POST":
         result = request.POST.get('search')
