@@ -3,7 +3,7 @@ from SearchEngine.search import google
 from django.contrib.auth.models import User
 from display.models import Display,Display_Data
 from django.contrib import messages
-#from SearchEngine.search import google,yahoo,duck,ecosia, bing, givewater
+from SearchEngine.search import google,yahoo,duck,ecosia, bing, givewater
 
 def homepage(request):
     user_count=User.objects.count()
@@ -39,16 +39,16 @@ def results(request):
         result = request.POST.get('search')
         google_link,google_text,google_image= google(result)
         google_data = zip(google_link,google_text,google_image )
-        # yahoo_link,yahoo_text = yahoo(result)
-        # yahoo_data = zip(yahoo_link,yahoo_text)
-        # duck_link,duck_text = duck(result)
-        # duck_data = zip(duck_link,duck_text)
-        # ecosia_link,ecosia_text = ecosia(result)
-        # ecosia_data = zip(ecosia_link,ecosia_text)
-        # bing_link,bing_text = bing(result)
-        # bing_data = zip(bing_link,bing_text)
-        # givewater_link,givewater_text = givewater(result)
-        # givewater_data = zip(givewater_link,givewater_text)
+        yahoo_link,yahoo_text = yahoo(result)
+        yahoo_data = zip(yahoo_link,yahoo_text)
+        duck_link,duck_text,duck_image  = duck(result)
+        duck_data = zip(duck_link,duck_text,duck_image)
+        ecosia_link,ecosia_text = ecosia(result)
+        ecosia_data = zip(ecosia_link,ecosia_text)
+        bing_link,bing_text = bing(result)
+        bing_data = zip(bing_link,bing_text)
+        givewater_link,givewater_text = givewater(result)
+        givewater_data = zip(givewater_link,givewater_text)
 
 
 
@@ -58,5 +58,5 @@ def results(request):
         else:
             
             
-            return render(request,'results.html',{'google': google_data})
-            #return render(request,'results.html',{'google': google_data, 'yahoo': yahoo_data, 'duck': duck_data, 'ecosia': ecosia_data,'bing': bing_data, 'givewater': givewater_data})
+            #return render(request,'results.html',{'google': google_data})
+            return render(request,'results.html',{'google': google_data, 'yahoo': yahoo_data, 'duck': duck_data, 'ecosia': ecosia_data,'bing': bing_data, 'givewater': givewater_data})
