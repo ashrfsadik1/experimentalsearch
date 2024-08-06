@@ -45,8 +45,8 @@ def results(request):
         duck_data = zip(duck_link,duck_text,duck_image)
         ecosia_link,ecosia_text = ecosia(result)
         ecosia_data = zip(ecosia_link,ecosia_text)
-        bing_link,bing_text = bing(result)
-        bing_data = zip(bing_link,bing_text)
+        bing_link,bing_text,bing_image = bing(result)
+        bing_data = zip(bing_link,bing_text,bing_image)
         givewater_link,givewater_text = givewater(result)
         givewater_data = zip(givewater_link,givewater_text)
 
