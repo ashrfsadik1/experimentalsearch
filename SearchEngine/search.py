@@ -65,8 +65,9 @@ def yahoo(s):
     print(raw_page)
     soup = BeautifulSoup(raw_page.text, "html.parser")
     #for link in soup.find_all(attrs={"class": "ac-algo fz-l ac-21th lh-24"}):
-    for link in soup.find_all(attrs={"class": "dd fst algo algo-sr relsrch richALgo"}):    
+    for link in soup.find_all(attrs={"class": "compTitle options-toggle"}):    
         links.append(link.get('href'))
+        print(link.get('href'))
         text.append(link.text)
     return links, text
 
