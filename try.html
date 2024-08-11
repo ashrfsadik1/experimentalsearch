@@ -7,3 +7,51 @@ data-1ec="61f11eaffb1f3c" aria-label="FRP Bypass Samsung Galaxy A20s Android 11,
 <div class="dd algo algo-sr relsrch richAlgo"><div class="compTitle options-toggle"><h3 style="display:block;" class="title mt-18 mb-4"><a style="line-height:normal" class="d-ib fz-20 lh-26 td-hu tc va-bot mxw-100p mt-8" data-matarget="algo" target="_blank" referrerpolicy="origin" href="https://r.search.yahoo.com/_ylt=AwrFErJdErNmrwQAoT5XNyoA;_ylu=Y29sbwNiZjEEcG9zAzQEdnRpZAMEc2VjA3Ny/RV=2/RE=1724221277/RO=10/RU=https%3a%2f%2fwww.youtube.com%2fwatch%3fv%3dMMPE6i3kGEg/RK=2/RS=PzQlEO_kBNL43C0ed3IvYTRGf30-" data-1ec="61f11eaffb1f3c" aria-label="FRP Bypass Samsung Galaxy A20s Android 11, bit 3-4 ... - YouTube"><span style="padding-left:23px" class="d-ib p-abs t-3 l-0 pl-23 fz-13 lh-18 fc-444444 wr-bw ls-n pb-4 fw-m">www.youtube.com<span class="p-crumb"> · watch</span></span>FRP Bypass Samsung Galaxy A20s Android 11, bit 3-4 ... - YouTube</a></h3><div style="visibility:hidden;padding-left:23px" class="d-ib p-abs t-3 l-0 pl-23 fz-13 lh-18 fc-444444 wr-bw ls-n pb-4 fw-m"><span>www.youtube.com</span><span> · watch</span><div class="d-ib v-v"><a class="thmb p-abs l-0 ivt-3 pt-5" referrerpolicy="origin" href="https://www.youtube.com/watch?v=MMPE6i3kGEg" target="_blank"><img class="s-img va-top mxw bdr-4 ov-h" width="16" height="16" loading="lazy" src="https://s.yimg.com/cv/apiv2/search/favicon/32x32_ab3201c6103205c14f6e56b11b2fcd46.png"></a></div></div></div><div class="compText aAbs"><p class="fz-14 lh-1_45x mah-44 ov-h d-box fbox-ov fbox-lc2"><span class="fc-smoke">Oct 1, 2023 · </span>  <b>Frp</b> bypass Google account lock Samsung Galaxy A20s Android 11, bit 3-4-5 (U3, S3, S4, S5) without PC. Samsung Galaxy A20s phone has model SM-A207F, running a... </p></div><div class="grp grp-talgo-facts "><ul class="compInfo mt-4 bxz-bb d-ib va-top" style="max-width: 50%;"><li class="tc bxz-bb pr-24 lh-22 fz-14"><label class="fw-b">Video Duration:</label> 20 min</li><li class="tc bxz-bb pr-24 lh-22 fz-14"><label class="fw-b">Views:</label> 126.6K</li></ul><ul class="compInfo mt-4 bxz-bb d-ib va-top" style="max-width: 50%;"><li class="tc bxz-bb pr-24 lh-22 fz-14"><label class="fw-b">Author:</label> Phone Done</li></ul></div></div>
 
         <div class="compTitle options-toggle"><h3 style="display:block;" class="title mt-18 mb-4"><a style="line-height:normal" class="d-ib fz-20 lh-26 td-hu tc va-bot mxw-100p mt-8" data-matarget="algo" target="_blank" referrerpolicy="origin" href="https://r.search.yahoo.com/_ylt=AwrFErJdErNmrwQAnT5XNyoA;_ylu=Y29sbwNiZjEEcG9zAzIEdnRpZAMEc2VjA3Ny/RV=2/RE=1724221277/RO=10/RU=https%3a%2f%2fdrfone.wondershare.com%2fgoogle-frp-unlock%2fsamsung-a20-frp-bypass.html/RK=2/RS=43Z58sSpuPonemy5jWOqX5D900k-" data-1ec="61f11eaffa5608" aria-label="Step-by-Step Tutorial: How to Bypass FRP on Samsung A20/A20S"><span style="padding-left:23px" class="d-ib p-abs t-3 l-0 pl-23 fz-13 lh-18 fc-444444 wr-bw ls-n pb-4 fw-m">drfone.wondershare.com<span class="p-crumb"> · google-frp-unlock · samsung</span></span>Step-by-Step Tutorial: How to Bypass FRP on Samsung A20/A20S</a></h3><div style="visibility:hidden;padding-left:23px" class="d-ib p-abs t-3 l-0 pl-23 fz-13 lh-18 fc-444444 wr-bw ls-n pb-4 fw-m"><span>drfone.wondershare.com</span><span> · google-frp-unlock · samsung</span><div class="d-ib v-v"><a class="thmb p-abs l-0 ivt-3 pt-5" referrerpolicy="origin" href="https://drfone.wondershare.com/google-frp-unlock/samsung-a20-frp-bypass.html" target="_blank"><img class="s-img va-top mxw bdr-4 ov-h" width="16" height="16" loading="lazy" src="https://s.yimg.com/cv/apiv2/search/favicon/32x32_65139c3171eefaa9467543c84c809941.png"></a></div></div></div>
+        import requests
+from bs4 import BeautifulSoup
+
+def yahoo(search_term, num_results=10):
+    """Extracts links and text snippets from Yahoo search results.
+
+    Args:
+        search_term (str): The search query to use.
+        num_results (int, optional): The number of results to retrieve. Defaults to 10.
+
+    Returns:
+        tuple: A tuple containing two lists:
+            - links (list): A list of URLs for the search results.
+            - snippets (list): A list of text snippets corresponding to the links.
+    """
+
+    url = f"https://search.yahoo.com/search?q={search_term}&n={num_results}"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
+    }  # Optional: Simulate a browser to avoid blocking
+
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # Raise an exception for non-200 status codes
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Improved selector for links and snippets (may need further adjustment based on HTML structure changes)
+        links = [link.get('href') for link in soup.find_all('a', class_='d-ib fz-20 lh-26 td-hu tc va-bot mxw-100p mt-8')]
+        snippets = [link.text.strip() for link in soup.find_all('a', class_='d-ib fz-20 lh-26 td-hu tc va-bot mxw-100p mt-8')]
+
+        return links, snippets
+
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred while fetching results: {e}")
+        return [], []  # Return empty lists on errors
+
+if __name__ == '__main__':
+    search_query = "artificial intelligence"
+    links, snippets = yahoo(search_query)
+
+    if links:
+        for i, (link, snippet) in enumerate(zip(links, snippets)):
+            print(f"{i+1}. {snippet} ({link})")
+    else:
+        print("No results found for the search query.")
+        <a style="line-height:normal" class="d-ib fz-20 lh-26 td-hu tc va-bot mxw-100p mt-8" data-matarget="algo" target="_blank" referrerpolicy="origin" href="https://r.search.yahoo.com/_ylt=AwrhezYuZ7hmeQQA_y5XNyoA;_ylu=Y29sbwNiZjEEcG9zAzMEdnRpZAMEc2VjA3Ny/RV=2/RE=1724570671/RO=10/RU=https%3a%2f%2fwww.youtube.com%2fwatch%3fv%3dP7sXOzEQLGI/RK=2/RS=tw5xWg0vCjDM0T9cagpUAFmh9OM-" data-fac="61f63447bb7058" aria-label="FRP bypass Samsung Galaxy A20s (A207F)Build Number (U5 ..."><span style="padding-left:23px" class="d-ib p-abs t-3 l-0 pl-23 fz-13 lh-18 fc-444444 wr-bw ls-n pb-4 fw-m">www.youtube.com<span class="p-crumb"> · watch</span></span>FRP bypass Samsung Galaxy A20s (A207F)Build Number (U5 ...</a>
+<a style="line-height:normal" class="d-ib fz-20 lh-26 td-hu tc va-bot mxw-100p mt-8" data-matarget="algo" target="_blank" referrerpolicy="origin" href="https://r.search.yahoo.com/_ylt=AwrhezYuZ7hmeQQAEC9XNyoA;_ylu=Y29sbwNiZjEEcG9zAzYEdnRpZAMEc2VjA3Ny/RV=2/RE=1724570671/RO=10/RU=https%3a%2f%2fwww.mobilerdx.com%2f2020%2f07%2fsamsung-galaxy-a20s-a207f-to-bypass-frp-and-pattern-lock.html/RK=2/RS=owKyn50E8Z8DzHiNFpEKhkUchsg-" data-fac="61f63447bd40e0" aria-label="Samsung Galaxy A20s A207F ISP Pinout To ByPass FRP And ..."><span style="padding-left:23px" class="d-ib p-abs t-3 l-0 pl-23 fz-13 lh-18 fc-444444 wr-bw ls-n pb-4 fw-m">www.mobilerdx.com<span class="p-crumb"> · 2020 · 07</span></span>Samsung Galaxy A20s A207F ISP Pinout To ByPass FRP And ...</a>

@@ -3,8 +3,10 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, parse_qs
 from django.urls import reverse
-from urllib.parse import quote
+from urllib.parse import quote,unquote
 import re
+from urllib.parse import urlencode
+
 
 # done
 
@@ -57,19 +59,68 @@ def google(s):
 # ملاحظة: تأكد من استبدال `YOUR_API_KEY` بمفتاح API الخاص بك لخدمة التقاط الصور من صفحة الويب.
 
     # Somethime request.code == 500
-def yahoo(s):
+
+
+
+
+
+def yahoo(search_query):
     links = []
     text = []
-    url = "https://search.yahoo.com/search?q=" + s + "&n=" + str(10)
-    raw_page = requests.get(url)
-    print(raw_page)
+    images=[]
+    searchtxt=search_query
+    # URL الخاص ببحث ياهو
+    url = "https://search.yahoo.com/search?q=" + search_query + "&n=" + str(10)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582"
+    }
+    raw_page = requests.get(url, headers=headers)
     soup = BeautifulSoup(raw_page.text, "html.parser")
-    #for link in soup.find_all(attrs={"class": "ac-algo fz-l ac-21th lh-24"}):
-    for link in soup.find_all(attrs={"class": "compTitle options-toggle"}):    
-        links.append(link.get('href'))
-        print(link.get('href'))
-        text.append(link.text)
+
+    # البحث عن الروابط والتحقق من صحتها
+    for link in soup.find_all("a", href=True):
+        href = link.get('href')
+        # تصفية الروابط التي تحتوي على نص "r.search.yahoo"
+        if "https://r.search.yahoo.com" in href:
+            # التأكد من أن النص المرفق بالرابط يحتوي على الكلمات المطلوبة
+            link_text = link.text.lower()
+            if any(word.lower() in link_text for word in search_query.split()):
+                # استخلاص الرابط الأصلي باستخدام التعبير المنتظم
+                match = re.search(r'RU=(.+?)/RK=', href)
+                if match:
+                    original_link =unquote(match.group(1))
+                    youtube_pattern = re.compile(
+        r'(https?://)?(www\.)?(youtube|youtu|youtube-nocookie)\.(com|be)/.+'
+       )
+                if youtube_pattern.match(original_link):
+                     youtube_id = parse_qs(urlparse(original_link).query).get('v', [None])[0]
+                     thumbnail_url = f"https://img.youtube.com/vi/{youtube_id}/hqdefault.jpg"
+                     display_url = reverse('display_video', kwargs={'url': youtube_id,'searchtxt':searchtxt})
+             
+                     images.append(thumbnail_url) 
+             
+                     links.append(display_url)
+                else:
+                  encoded_url = quote(original_link, safe='')
+             #display_url = reverse('display_web', kwargs={'url': encoded_url,'searchtxt':searchtxt})    
+             #display_url="{% url 'display\display_web' url="+ encoded_url+" searchtxt="+searchtxt +"%}"
+                  display_url = reverse('display_web', kwargs={'url': encoded_url, 'searchtxt': searchtxt})
+                  links.append(display_url)
+             # للحصول على صورة للموقع (يحتاج إلى خدمة خارجية)
+                  site_thumbnail_url = f"https://api.page2images.com/directlink?p2i_url={encoded_url}&p2i_key=bf036f37d1181016"
+                  images.append(site_thumbnail_url)
+                  links.append(display_url)
+                  text.append(link.text)
+
     return links, text
+
+# مثال على استخدام الدالة
+# results = yahoo("example search")
+# for link, txt in zip(results[0], results[1]):
+#  print(f"Link: {link}, Text: {txt}")
+
+
+
 
 
 # done
